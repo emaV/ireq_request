@@ -1,0 +1,42 @@
+<?php
+/**
+ * @file
+ * Code for the CRF Request feature.
+ */
+
+include_once 'crf_request.features.inc';
+
+
+/**
+ * Implements hook_node_presave().
+ */
+function crf_request_node_presave($node) {
+  if ($node->type == 'request') {
+    $reporting_types = array();
+    foreach ($node->field_reporting_type['und'] as $reporting_type) {
+      $reporting_type_term = taxonomy_term_load($reporting_type['target_id']);
+      $reporting_types[] = $reporting_type_term->name;
+    }
+    $node->title = t('@reporting_types @title', array('@reporting_types' => implode(', ', $reporting_types), '@title' => $node->title));
+  }
+}
+
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ */
+function crf_request_form_request_node_form_alter(&$form, &$form_state, $form_id) {
+  $node = $form['#node'];
+  if (!isset($node->nid)) {  
+    $form['actions']['submit']['#value'] = t('Create & Send Info Request');
+  
+    // Help link
+    $help_link = theme('advanced_help_topic', array(
+      'module' => 'crf_request',
+      'topic' => 'request-email',
+    ));
+    $form['field_append_to_alert_email']['#prefix'] = $help_link . '&nbsp;' . t('Show me an Information Request email example');
+  }
+}
+
+
