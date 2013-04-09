@@ -983,7 +983,7 @@ function crf_request_field_default_fields() {
         ),
       ),
       'deleted' => '0',
-      'description' => 'Set this request to "internal" to make the items submitted to it private.',
+      'description' => 'Set this request to "internal" to make the request and all submitted data to be private to OCHA only',
       'display' => array(
         'default' => array(
           'label' => 'inline',
@@ -1010,7 +1010,7 @@ function crf_request_field_default_fields() {
       ),
       'entity_type' => 'node',
       'field_name' => 'field_request_type',
-      'label' => 'Request type',
+      'label' => 'Internal OCHA Request',
       'required' => 0,
       'settings' => array(
         'entity_translation_sync' => FALSE,
@@ -1020,7 +1020,7 @@ function crf_request_field_default_fields() {
         'active' => 1,
         'module' => 'options',
         'settings' => array(
-          'display_label' => 0,
+          'display_label' => 1,
           'maxlength_js_label' => 'Content limited to @limit characters, remaining: <strong>@remaining</strong>',
         ),
         'type' => 'options_onoff',
@@ -1114,13 +1114,13 @@ function crf_request_field_default_fields() {
   t('Content type');
   t('Deadline for information submission');
   t('Description');
+  t('Internal OCHA Request');
   t('Recipients');
   t('Reporting type');
   t('Reporting types');
   t('Request');
-  t('Request type');
   t('Requested by');
-  t('Set this request to "internal" to make the items submitted to it private.');
+  t('Set this request to "internal" to make the request and all submitted data to be private to OCHA only');
 
   return $fields;
 }
