@@ -13,9 +13,9 @@ function crf_request_taxonomy_default_vocabularies() {
       'name' => 'Reporting types',
       'machine_name' => 'reporting_types',
       'description' => '',
-      'hierarchy' => '0',
+      'hierarchy' => 0,
       'module' => 'taxonomy',
-      'weight' => '0',
+      'weight' => 0,
       'rdf_mapping' => array(
         'rdftype' => array(
           0 => 'skos:ConceptScheme',
