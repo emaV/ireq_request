@@ -28,7 +28,7 @@ function crf_request_strongarm() {
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
   $strongarm->name = 'auto_entitylabel_pattern_node_report';
-  $strongarm->value = '';
+  $strongarm->value = '[node:field-collection-request-ref:field-reporting-type:name] [node:field-collection-request-ref:item-id]-[node:field-recipient:uid]';
   $export['auto_entitylabel_pattern_node_report'] = $strongarm;
 
   $strongarm = new stdClass();
@@ -159,10 +159,13 @@ function crf_request_strongarm() {
     'extra_fields' => array(
       'form' => array(
         'title' => array(
-          'weight' => '-5',
+          'weight' => '0',
         ),
         'path' => array(
-          'weight' => '30',
+          'weight' => '2',
+        ),
+        'workbench_access' => array(
+          'weight' => '1',
         ),
       ),
       'display' => array(),
@@ -207,10 +210,13 @@ function crf_request_strongarm() {
     'extra_fields' => array(
       'form' => array(
         'title' => array(
-          'weight' => '0',
+          'weight' => '1',
         ),
         'path' => array(
-          'weight' => '1',
+          'weight' => '2',
+        ),
+        'workbench_access' => array(
+          'weight' => '0',
         ),
       ),
       'display' => array(),

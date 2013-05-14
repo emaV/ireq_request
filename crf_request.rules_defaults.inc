@@ -43,19 +43,24 @@ function crf_request_default_rules_configuration() {
       "ON" : [ "node_insert" ],
       "IF" : [
         { "node_is_of_type" : { "node" : [ "node" ], "type" : { "value" : { "request" : "request" } } } },
-        { "entity_has_field" : { "entity" : [ "node" ], "field" : "field_request_recipients" } }
+        { "entity_has_field" : {
+            "entity" : [ "node:field-collection-request:0" ],
+            "field" : "field_request_recipients"
+          }
+        }
       ],
       "DO" : [
         { "LOOP" : {
-            "USING" : { "list" : [ "node:field-request-recipients" ] },
-            "ITEM" : { "current_recipient" : "Current recipient" },
+            "USING" : { "list" : [ "node:field-collection-request" ] },
+            "ITEM" : { "request_item" : "Current request item" },
             "DO" : [
-              { "mail" : {
-                  "to" : [ "current-recipient:mail" ],
-                  "subject" : "New Request for [node:field-reporting-type:0:name]",
-                  "message" : "Dear [current-recipient:field-first-name] [current-recipient:field-last-name],\\r\\n\\r\\n[node:field-request-requested-by:0:field-first-name] [node:field-request-requested-by:0:field-last-name] is requesting that you provide [node:field-reporting-type:0:name] information.\\r\\n\\r\\n[node:field-append-to-alert-email]\\r\\n\\r\\nKindly provide your information online: [node:url]\\r\\n\\r\\nKind regards,\\r\\nOCHA\\r\\n",
-                  "from" : [ "site:mail" ],
-                  "language" : [ "" ]
+              { "drupal_message" : { "message" : "Reporting types: [request-item:field-reporting-type]\\r\\nAppend to Information Request email: [request-item:field-append-to-alert-email]" } },
+              { "LOOP" : {
+                  "USING" : { "list" : [ "request-item:field-request-recipients" ] },
+                  "ITEM" : { "request_item_recipient" : "Current request item recipient" },
+                  "DO" : [
+                    { "drupal_message" : { "message" : "Mail: [request-item-recipient:mail]\\r\\nName: [request-item-recipient:name]" } }
+                  ]
                 }
               }
             ]

@@ -10,6 +10,57 @@
 function crf_request_field_default_field_instances() {
   $field_instances = array();
 
+  // Exported field_instance: 'node-report-field_collection_request_ref'
+  $field_instances['node-report-field_collection_request_ref'] = array(
+    'bundle' => 'report',
+    'default_value' => NULL,
+    'deleted' => 0,
+    'description' => '',
+    'display' => array(
+      'default' => array(
+        'label' => 'above',
+        'module' => 'entityreference',
+        'settings' => array(
+          'diff_custom' => 0,
+          'diff_custom_settings' => array(),
+          'link' => FALSE,
+        ),
+        'type' => 'entityreference_label',
+        'weight' => 4,
+      ),
+      'entityreference_view_widget' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+      'teaser' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+    ),
+    'entity_type' => 'node',
+    'field_name' => 'field_collection_request_ref',
+    'label' => 'Request',
+    'required' => 0,
+    'settings' => array(
+      'entity_translation_sync' => FALSE,
+      'user_register_form' => FALSE,
+    ),
+    'widget' => array(
+      'active' => 1,
+      'module' => 'options',
+      'settings' => array(
+        'maxlength_js_label' => 'Content limited to @limit characters, remaining: <strong>@remaining</strong>',
+      ),
+      'type' => 'options_select',
+      'weight' => 3,
+    ),
+    'workbench_access_field' => 0,
+  );
+
   // Exported field_instance: 'node-report-field_file'
   $field_instances['node-report-field_file'] = array(
     'bundle' => 'report',
@@ -59,7 +110,58 @@ function crf_request_field_default_field_instances() {
         'progress_indicator' => 'throbber',
       ),
       'type' => 'file_generic',
-      'weight' => 36,
+      'weight' => 8,
+    ),
+    'workbench_access_field' => 0,
+  );
+
+  // Exported field_instance: 'node-report-field_recipient'
+  $field_instances['node-report-field_recipient'] = array(
+    'bundle' => 'report',
+    'default_value' => NULL,
+    'deleted' => 0,
+    'description' => '',
+    'display' => array(
+      'default' => array(
+        'label' => 'above',
+        'module' => 'entityreference',
+        'settings' => array(
+          'diff_custom' => 0,
+          'diff_custom_settings' => array(),
+          'link' => FALSE,
+        ),
+        'type' => 'entityreference_label',
+        'weight' => 5,
+      ),
+      'entityreference_view_widget' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+      'teaser' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+    ),
+    'entity_type' => 'node',
+    'field_name' => 'field_recipient',
+    'label' => 'Recipient',
+    'required' => 0,
+    'settings' => array(
+      'entity_translation_sync' => FALSE,
+      'user_register_form' => FALSE,
+    ),
+    'widget' => array(
+      'active' => 1,
+      'module' => 'options',
+      'settings' => array(
+        'maxlength_js_label' => 'Content limited to @limit characters, remaining: <strong>@remaining</strong>',
+      ),
+      'type' => 'options_select',
+      'weight' => 4,
     ),
     'workbench_access_field' => 0,
   );
@@ -140,118 +242,7 @@ function crf_request_field_default_field_instances() {
         'rows' => 5,
       ),
       'type' => 'text_textarea',
-      'weight' => 34,
-    ),
-    'workbench_access_field' => 0,
-  );
-
-  // Exported field_instance: 'node-report-field_reporting_type'
-  $field_instances['node-report-field_reporting_type'] = array(
-    'bundle' => 'report',
-    'default_value' => NULL,
-    'deleted' => 0,
-    'description' => '',
-    'display' => array(
-      'default' => array(
-        'label' => 'above',
-        'module' => 'entityreference',
-        'settings' => array(
-          'diff_custom' => 0,
-          'diff_custom_settings' => array(),
-          'link' => FALSE,
-        ),
-        'type' => 'entityreference_label',
-        'weight' => 1,
-      ),
-      'entityreference_view_widget' => array(
-        'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 0,
-      ),
-      'teaser' => array(
-        'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 0,
-      ),
-    ),
-    'entity_type' => 'node',
-    'entityconnect_unload_add' => 0,
-    'entityconnect_unload_edit' => 0,
-    'field_name' => 'field_reporting_type',
-    'label' => 'Reporting type',
-    'required' => 1,
-    'settings' => array(
-      'behaviors' => array(
-        'taxonomy-index' => array(
-          'status' => TRUE,
-        ),
-      ),
-      'entity_translation_sync' => FALSE,
-      'user_register_form' => FALSE,
-    ),
-    'widget' => array(
-      'active' => 1,
-      'module' => 'options',
-      'settings' => array(
-        'maxlength_js_label' => 'Content limited to @limit characters, remaining: <strong>@remaining</strong>',
-      ),
-      'type' => 'options_select',
-      'weight' => 33,
-    ),
-    'workbench_access_field' => 0,
-  );
-
-  // Exported field_instance: 'node-report-field_request'
-  $field_instances['node-report-field_request'] = array(
-    'bundle' => 'report',
-    'default_value' => NULL,
-    'deleted' => 0,
-    'description' => '',
-    'display' => array(
-      'default' => array(
-        'label' => 'above',
-        'module' => 'entityreference',
-        'settings' => array(
-          'diff_custom' => 0,
-          'diff_custom_settings' => array(),
-          'link' => FALSE,
-        ),
-        'type' => 'entityreference_label',
-        'weight' => 0,
-      ),
-      'entityreference_view_widget' => array(
-        'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 0,
-      ),
-      'teaser' => array(
-        'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 0,
-      ),
-    ),
-    'entity_type' => 'node',
-    'entityconnect_unload_add' => 1,
-    'entityconnect_unload_edit' => 1,
-    'field_name' => 'field_request',
-    'label' => 'Request',
-    'required' => 1,
-    'settings' => array(
-      'entity_translation_sync' => FALSE,
-      'user_register_form' => FALSE,
-    ),
-    'widget' => array(
-      'active' => 1,
-      'module' => 'options',
-      'settings' => array(
-        'maxlength_js_label' => 'Content limited to @limit characters, remaining: <strong>@remaining</strong>',
-      ),
-      'type' => 'options_select',
-      'weight' => 31,
+      'weight' => 7,
     ),
     'workbench_access_field' => 0,
   );
@@ -267,14 +258,8 @@ function crf_request_field_default_field_instances() {
         'label' => 'inline',
         'module' => 'text',
         'settings' => array(
-          'collapseTimer' => '',
           'diff_custom' => 0,
           'diff_custom_settings' => array(),
-          'expandPrefix' => '...',
-          'expandText' => 'Expand »',
-          'slicePoint' => 50,
-          'userCollapsePrefix' => '',
-          'userCollapseText' => 'Collapse',
         ),
         'type' => 'text_default',
         'weight' => 6,
@@ -338,27 +323,29 @@ function crf_request_field_default_field_instances() {
         'rows' => 5,
       ),
       'type' => 'text_textarea',
-      'weight' => 7,
+      'weight' => 9,
     ),
     'workbench_access_field' => 0,
   );
 
-  // Exported field_instance: 'node-request-field_reporting_type'
-  $field_instances['node-request-field_reporting_type'] = array(
+  // Exported field_instance: 'node-request-field_collection_request'
+  $field_instances['node-request-field_collection_request'] = array(
     'bundle' => 'request',
     'default_value' => NULL,
     'deleted' => 0,
     'description' => '',
     'display' => array(
       'default' => array(
-        'label' => 'inline',
-        'module' => 'entityreference',
+        'label' => 'above',
+        'module' => 'field_collection_views',
         'settings' => array(
+          'add' => '',
           'diff_custom' => 0,
           'diff_custom_settings' => array(),
-          'link' => FALSE,
+          'display_id' => 'default',
+          'name' => 'field_collection_requests_view',
         ),
-        'type' => 'entityreference_label',
+        'type' => 'field_collection_views_view',
         'weight' => 2,
       ),
       'entityreference_view_widget' => array(
@@ -375,28 +362,21 @@ function crf_request_field_default_field_instances() {
       ),
     ),
     'entity_type' => 'node',
-    'entityconnect_unload_add' => 0,
-    'entityconnect_unload_edit' => 0,
-    'field_name' => 'field_reporting_type',
-    'label' => 'Reporting types',
-    'required' => 1,
+    'field_name' => 'field_collection_request',
+    'label' => 'Request',
+    'required' => 0,
     'settings' => array(
-      'behaviors' => array(
-        'taxonomy-index' => array(
-          'status' => TRUE,
-        ),
-      ),
       'entity_translation_sync' => FALSE,
       'user_register_form' => FALSE,
     ),
     'widget' => array(
-      'active' => 1,
-      'module' => 'options',
+      'active' => 0,
+      'module' => 'field_collection',
       'settings' => array(
         'maxlength_js_label' => 'Content limited to @limit characters, remaining: <strong>@remaining</strong>',
       ),
-      'type' => 'options_select',
-      'weight' => 3,
+      'type' => 'field_collection_embed',
+      'weight' => 5,
     ),
     'workbench_access_field' => 0,
   );
@@ -420,7 +400,7 @@ function crf_request_field_default_field_instances() {
           'multiple_to' => '',
         ),
         'type' => 'date_default',
-        'weight' => 3,
+        'weight' => 1,
       ),
       'entityreference_view_widget' => array(
         'label' => 'above',
@@ -460,168 +440,7 @@ function crf_request_field_default_field_instances() {
         'year_range' => '-3:+3',
       ),
       'type' => 'date_select',
-      'weight' => 4,
-    ),
-    'workbench_access_field' => 0,
-  );
-
-  // Exported field_instance: 'node-request-field_request_recipients'
-  $field_instances['node-request-field_request_recipients'] = array(
-    'bundle' => 'request',
-    'default_value' => NULL,
-    'deleted' => 0,
-    'description' => '',
-    'display' => array(
-      'default' => array(
-        'label' => 'above',
-        'module' => 'entityreference',
-        'settings' => array(
-          'diff_custom' => 0,
-          'diff_custom_settings' => array(),
-          'link' => FALSE,
-        ),
-        'type' => 'entityreference_label',
-        'weight' => 7,
-      ),
-      'entityreference_view_widget' => array(
-        'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 0,
-      ),
-      'teaser' => array(
-        'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 0,
-      ),
-    ),
-    'entity_type' => 'node',
-    'entityconnect_unload_add' => 0,
-    'entityconnect_unload_edit' => 0,
-    'field_name' => 'field_request_recipients',
-    'label' => 'Recipients',
-    'required' => 1,
-    'settings' => array(
-      'entity_translation_sync' => FALSE,
-      'user_register_form' => FALSE,
-    ),
-    'widget' => array(
-      'active' => 1,
-      'module' => 'options',
-      'settings' => array(
-        'maxlength_js_label' => 'Content limited to @limit characters, remaining: <strong>@remaining</strong>',
-      ),
-      'type' => 'options_select',
-      'weight' => 5,
-    ),
-    'workbench_access_field' => 0,
-  );
-
-  // Exported field_instance: 'node-request-field_request_requested_by'
-  $field_instances['node-request-field_request_requested_by'] = array(
-    'bundle' => 'request',
-    'default_value' => NULL,
-    'deleted' => 0,
-    'description' => '',
-    'display' => array(
-      'default' => array(
-        'label' => 'above',
-        'module' => 'entityreference',
-        'settings' => array(
-          'diff_custom' => 0,
-          'diff_custom_settings' => array(),
-          'link' => FALSE,
-        ),
-        'type' => 'entityreference_label',
-        'weight' => 5,
-      ),
-      'entityreference_view_widget' => array(
-        'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 0,
-      ),
-      'teaser' => array(
-        'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 0,
-      ),
-    ),
-    'entity_type' => 'node',
-    'entityconnect_unload_add' => 0,
-    'entityconnect_unload_edit' => 0,
-    'field_name' => 'field_request_requested_by',
-    'label' => 'Requested by',
-    'required' => 1,
-    'settings' => array(
-      'entity_translation_sync' => FALSE,
-      'user_register_form' => FALSE,
-    ),
-    'widget' => array(
-      'active' => 1,
-      'module' => 'options',
-      'settings' => array(
-        'maxlength_js_label' => 'Content limited to @limit characters, remaining: <strong>@remaining</strong>',
-      ),
-      'type' => 'options_select',
-      'weight' => 6,
-    ),
-    'workbench_access_field' => 0,
-  );
-
-  // Exported field_instance: 'node-request-field_request_type'
-  $field_instances['node-request-field_request_type'] = array(
-    'bundle' => 'request',
-    'default_value' => array(
-      0 => array(
-        'value' => 0,
-      ),
-    ),
-    'deleted' => 0,
-    'description' => 'Set this request to "internal" to make the request and all submitted data to be private to OCHA only',
-    'display' => array(
-      'default' => array(
-        'label' => 'inline',
-        'module' => 'list',
-        'settings' => array(
-          'diff_custom' => 0,
-          'diff_custom_settings' => array(),
-        ),
-        'type' => 'list_default',
-        'weight' => 1,
-      ),
-      'entityreference_view_widget' => array(
-        'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 0,
-      ),
-      'teaser' => array(
-        'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 0,
-      ),
-    ),
-    'entity_type' => 'node',
-    'field_name' => 'field_request_type',
-    'label' => 'Internal OCHA Request',
-    'required' => 0,
-    'settings' => array(
-      'entity_translation_sync' => FALSE,
-      'user_register_form' => FALSE,
-    ),
-    'widget' => array(
-      'active' => 1,
-      'module' => 'options',
-      'settings' => array(
-        'display_label' => 1,
-        'maxlength_js_label' => 'Content limited to @limit characters, remaining: <strong>@remaining</strong>',
-      ),
-      'type' => 'options_onoff',
-      'weight' => 2,
+      'weight' => 3,
     ),
     'workbench_access_field' => 0,
   );
@@ -677,13 +496,8 @@ function crf_request_field_default_field_instances() {
   t('Content type');
   t('Deadline for information submission');
   t('Description');
-  t('Internal OCHA Request');
-  t('Recipients');
-  t('Reporting type');
-  t('Reporting types');
+  t('Recipient');
   t('Request');
-  t('Requested by');
-  t('Set this request to "internal" to make the request and all submitted data to be private to OCHA only');
 
   return $field_instances;
 }
