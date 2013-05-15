@@ -35,7 +35,7 @@ function crf_request_strongarm() {
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
   $strongarm->name = 'auto_entitylabel_pattern_node_request';
-  $strongarm->value = 'Request from [current-date:request]';
+  $strongarm->value = 'Request [node:nid] - [node:created:medium]';
   $export['auto_entitylabel_pattern_node_request'] = $strongarm;
 
   $strongarm = new stdClass();
