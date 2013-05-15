@@ -12,12 +12,14 @@ include_once 'crf_request.features.inc';
  */
 function crf_request_node_presave($node) {
   if ($node->type == 'request') {
+/*
     $reporting_types = array();
     foreach ($node->field_reporting_type['und'] as $reporting_type) {
       $reporting_type_term = taxonomy_term_load($reporting_type['target_id']);
       $reporting_types[] = $reporting_type_term->name;
     }
     $node->title = t('@reporting_types @title', array('@reporting_types' => implode(', ', $reporting_types), '@title' => $node->title));
+*/
   }
 }
 
@@ -27,16 +29,173 @@ function crf_request_node_presave($node) {
  */
 function crf_request_form_request_node_form_alter(&$form, &$form_state, $form_id) {
   $node = $form['#node'];
-  if (!isset($node->nid)) {  
+  if (!isset($node->nid)) {
     $form['actions']['submit']['#value'] = t('Create & Send Info Request');
-  
+
     // Help link
     $help_link = theme('advanced_help_topic', array(
       'module' => 'crf_request',
       'topic' => 'request-email',
     ));
     $form['field_append_to_alert_email']['#prefix'] = $help_link . '&nbsp;' . t('Show me an Information Request email example');
+
+    if (isset($form['field_collection_request'])) {
+/*
+      // check form step (mail preview is actually a step)
+      $preview = isset($form_state['storage']['crf_request_preview']) ? $form_state['storage']['crf_request_preview'] : FALSE;
+      $max_delta = $form['field_collection_request']['und']['#max_delta'];
+
+      if (!$preview) {
+        // Add preview button
+        $form['field_collection_request']['preview'] = array(
+          '#name' => 'crf_request_preview_button',
+          '#type' => 'submit',
+          '#value' => t('Preview requests'),
+          '#validate' => array('crf_request_field_collection_request_preview_validate'),
+          '#submit' => array('crf_request_field_collection_request_preview_submit'),
+          '#weight' => 1001,
+        );
+      }
+      else {
+        $crf_requests = $form_state['values']['field_collection_request']['und'];
+        $crf_requests['#max_delta'] = $max_delta;
+dpm($crf_requests, 'crf_requests');
+        $preview_request_table = theme('field_collection_request_preview', $crf_requests);
+
+        $form['field_collection_request']['preview_requests'] = array(
+          '#markup' => '<h3>debug</h3>' . $preview_request_table . '<pre>' . print_r($crf_requests, TRUE) . '</pre>',
+        );
+        $form['field_collection_request']['und']['#access'] = FALSE;
+        $form['field_collection_request']['cancel_preview'] = array(
+          '#name' => 'crf_request_cancel_preview_button',
+          '#type' => 'submit',
+          '#value' => t('Cancel preview requests'),
+          '#validate' => array(),
+          '#submit' => array('crf_request_field_collection_request_cancel_preview_submit'),
+          '#weight' => 1001,
+        );
+      }
+
+        // get subform elements
+//        for($delta=0; $delta<=$max_delta; $delta++) {
+//  dsm("crf_request_form_request_node_form_alter (preview) > $max_delta");
+//          $form['field_collection_request']['#access'] = FALSE;
+//        }
+    */ 
+    }
   }
+
+  // cleanup field_collection subform
+  if (isset($form['field_collection_request'])) {
+    $max_delta = $form['field_collection_request']['und']['#max_delta'];
+    if (isset($form['field_collection_request']['und'][$max_delta]['remove_button'])) {
+      $form['field_collection_request']['und'][$max_delta]['remove_button']['#value'] = t('Clear');
+    }
+  }
+//dpm(array('form' => $form, 'form_state' => $form_state), 'crf_request_form_request_node_form_alter - FINAL');
 }
 
+/**
+ * Validate callback to preview a field_collection_request
+ * @TODO use field_collection_field_widget_form #element_validate (field_collection_field_widget_embed_validate)
+ */
+function crf_request_field_collection_request_preview_validate($form, &$form_state) {
+
+  $element = $form['field_collection_request'];
+//  field_collection_field_widget_embed_validate($element, &$form_state, $form);
+
+dpm($form, 'crf_request_field_collection_request_preview_validate > form');
+  entity_form_field_validate('node', $form, $form_state);
+
+/*
+  $max_delta = $form['field_collection_request']['und']['#max_delta'];
+  $field_collection_request_values = $form_state['values']['field_collection_request'];
+
+  for ($delta=0; $delta<=$max_delta; $delta++) {
+    //check 
+  }
+*/
+}
+
+/**
+ * Submit callback to preview a field_collection_request
+ */
+function crf_request_field_collection_request_preview_submit($form, &$form_state) {
+  $button = $form_state['triggering_element'];
+//dpm(array('form' => $form, 'form_state' => $form_state, 'button' => $button), 'crf_request_field_collection_request_preview_submit');
+  $form_state['storage']['crf_request_preview'] = TRUE;
+  $form_state['rebuild'] = TRUE;
+}
+
+function crf_request_field_collection_request_cancel_preview_submit($form, &$form_state) {
+  $form_state['storage']['crf_request_preview'] = FALSE;
+  $form_state['rebuild'] = TRUE;
+}
+/*
+function crf_request_form_alter(&$form, &$form_state, $form_id) {
+dsm("crf_request_form_alter > $form_id");
+}
+*/
+
+/**
+ * Implements hook_theme().
+ */
+function crf_request_theme() {
+  return array(
+    'field_collection_request_preview' => array(
+//      'variables' => array('element' => NULL),
+      'function' => 'theme_field_collection_request_preview',
+    ),
+  );
+}
+
+/**
+ * Theme field_collection request for preview
+ * @TODO cleanup
+ */
+function theme_field_collection_request_preview($element) {
+//dpm($element, 'theme_field_collection_request_preview > element');
+
+  $header = array(t('Report type'), t('Recipient'), t('Requested by'), t('View email'));
+  $rows = array();
+
+  for ($delta=0; $delta<=$element['#max_delta']; $delta++) {
+
+    // get report type
+    $reporting_type = $element[$delta]['field_reporting_type']['und'][0]['target_id'];
+    $reporting_type = $reporting_type ? $reporting_type : '-- undef --';
+
+    // get requested by
+    $requested_by_list = array();
+    foreach($element[$delta]['field_request_requested_by']['und'] as $requested_by) {
+      $requested_by_uid = $requested_by['target_id'];
+      if ($requested_by_uid) {
+        $user = user_load($requested_by_uid);
+        $user_name = $user->name;
+      }
+      else {
+        $user_name = t('Anonymous');
+      }
+      $requested_by_list[] = $user_name;
+    }
+    $requested_by = implode(',', $requested_by_list);
+
+    // get recipient
+    foreach ($element[$delta]['field_request_recipients']['und'] as $recipient) {
+      $recipient_uid = $recipient['target_id'];
+
+      if ($recipient_uid) {
+        $user = user_load($recipient_uid);
+        $user_name = $user->name;
+      }
+      else {
+        $user_name = 'Anonymous';
+      }
+
+      $rows[] = array($reporting_type, $user_name, $requested_by, 'link');
+    }
+  }
+
+  return theme('table', array('header' => $header, 'rows' => $rows));
+}
 
