@@ -208,13 +208,13 @@ function theme_field_collection_request_preview($element) {
 
       $rows[] = array('data' => array($reporting_type, "$recipient_first_name $recipient_last_name", "$requested_by_first_name $requested_by_last_name", '<span class="link-preview">preview</span>'));
       $rows[] = array(
-        'data' => array(array('data' => "<pre>$recipient_mail</pre>", 'colspan' => 4)),
+        'data' => array(array('data' => '<pre style="font-family:Courier, monospace">' . $recipient_mail . '</pre>', 'colspan' => 4)),
         'class' => array('mail-preview'),
         'no_striping' => TRUE
       );
     }
   }
-
-  return theme('table', array('header' => $header, 'rows' => $rows));
+  drupal_add_js(drupal_get_path('module', 'crf_request') . '/crf_request.email_preview.js');
+  return theme('table', array('header' => $header, 'rows' => $rows, 'attributes' => array('id' => 'report-request-preview')));
 }
 
