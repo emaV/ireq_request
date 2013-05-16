@@ -39,6 +39,7 @@ function crf_request_default_rules_configuration() {
   $items['rules_email_recipients_on_request_submission'] = entity_import('rules_config', '{ "rules_email_recipients_on_request_submission" : {
       "LABEL" : "Email recipients on request submission",
       "PLUGIN" : "reaction rule",
+      "TAGS" : [ "CRF" ],
       "REQUIRES" : [ "rules" ],
       "ON" : [ "node_insert" ],
       "IF" : [
@@ -54,12 +55,18 @@ function crf_request_default_rules_configuration() {
             "USING" : { "list" : [ "node:field-collection-request" ] },
             "ITEM" : { "request_item" : "Current request item" },
             "DO" : [
-              { "drupal_message" : { "message" : "Reporting types: [request-item:field-reporting-type]\\r\\nAppend to Information Request email: [request-item:field-append-to-alert-email]" } },
               { "LOOP" : {
                   "USING" : { "list" : [ "request-item:field-request-recipients" ] },
                   "ITEM" : { "request_item_recipient" : "Current request item recipient" },
                   "DO" : [
-                    { "drupal_message" : { "message" : "Mail: [request-item-recipient:mail]\\r\\nName: [request-item-recipient:name]" } }
+                    { "mail" : {
+                        "to" : "[request-item-recipient:mail]",
+                        "subject" : "New [request-item:field-reporting-type] request.",
+                        "message" : "Dear [request-item-recipient:field-first-name] [request-item-recipient:field-last-name],\\r\\n\\r\\n[request-item:field-request-requested-by:field-first-name] [request-item:field-request-requested-by:field-last-name] is requesting that you provide [request-item:field-reporting-type:name] information.\\r\\n\\r\\n[request-item:field-append-to-alert-email]\\r\\n\\r\\nKindly provide your information online: [node:url]\\r\\n\\r\\nKind regards,\\r\\nOCHA",
+                        "from" : [ "" ],
+                        "language" : [ "" ]
+                      }
+                    }
                   ]
                 }
               }
