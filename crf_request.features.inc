@@ -15,6 +15,13 @@ function crf_request_ctools_plugin_api() {
 }
 
 /**
+ * Implements hook_views_api().
+ */
+function crf_request_views_api() {
+  return array("api" => "3.0");
+}
+
+/**
  * Implements hook_node_info().
  */
 function crf_request_node_info() {
