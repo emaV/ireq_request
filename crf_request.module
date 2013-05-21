@@ -197,12 +197,12 @@ function theme_field_collection_request_preview($element) {
       $append_to_alert = $element[$delta]['field_append_to_alert_email']['und'][0]['value'];
       $recipient_mail_template = _crf_request_get_email_request_submission();
       $replacements = array(
-        '[current-recipient:field-first-name]' => $recipient_first_name,
-        '[current-recipient:field-last-name]'  => $recipient_last_name,
-        '[node:field-request-requested-by:0:field-first-name]' => $requested_by_first_name,
-        '[node:field-request-requested-by:0:field-last-name]'  => $requested_by_last_name,
-        '[node:field-reporting-type:0:name]' => $reporting_type,
-        '[node:field-append-to-alert-email]' => $append_to_alert,
+        '[request-item-recipient:field-first-name]' => $recipient_first_name,
+        '[request-item-recipient:field-last-name]'  => $recipient_last_name,
+        '[request-item:field-request-requested-by:field-first-name]' => $requested_by_first_name,
+        '[request-item:field-request-requested-by:field-last-name]'  => $requested_by_last_name,
+        '[request-item:field-reporting-type:name]' => $reporting_type,
+        '[request-item:field-append-to-alert-email]' => $append_to_alert,
         '[node:url]' => $base_url,
       );
       $recipient_mail = strtr($recipient_mail_template, $replacements);
