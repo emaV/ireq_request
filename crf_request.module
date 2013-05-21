@@ -149,7 +149,7 @@ function crf_request_theme() {
 function _crf_request_get_email_request_submission() {
 
   // get rule to preview email
-  $rule_config = rules_config_load('rules_email_recipients_on_request_submission_cloned_');
+  $rule_config = rules_config_load('rules_email_recipients_on_request_submission');
   $rule_components = json_decode($rule_config->export(), TRUE);
   $rule_mail = '';
   array_walk_recursive($rule_components, function ($item, $key) use (&$rule_mail) {
@@ -157,6 +157,7 @@ function _crf_request_get_email_request_submission() {
       $rule_mail = $item;
     }
   });
+
   return $rule_mail;
 }
 
