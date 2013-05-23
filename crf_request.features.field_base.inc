@@ -70,11 +70,11 @@ function crf_request_field_default_field_bases() {
     'entity_types' => array(),
     'field_name' => 'field_collection_request_ref',
     'foreign keys' => array(
-      'node' => array(
+      'field_collection_item' => array(
         'columns' => array(
-          'target_id' => 'nid',
+          'target_id' => 'item_id',
         ),
-        'table' => 'node',
+        'table' => 'field_collection_item',
       ),
     ),
     'indexes' => array(
@@ -184,11 +184,11 @@ function crf_request_field_default_field_bases() {
     'entity_types' => array(),
     'field_name' => 'field_recipient',
     'foreign keys' => array(
-      'node' => array(
+      'users' => array(
         'columns' => array(
-          'target_id' => 'nid',
+          'target_id' => 'uid',
         ),
-        'table' => 'node',
+        'table' => 'users',
       ),
     ),
     'indexes' => array(
