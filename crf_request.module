@@ -23,6 +23,39 @@ function crf_request_node_presave($node) {
   }
 }
 
+/**
+ * Implements hook_block_info().
+ */
+function crf_request_block_info() {
+  $blocks['create_request'] = array(
+    'info' => t('Create Request (CRF)'),
+  );
+  return $blocks;
+}
+
+/**
+ * Implements hook_block_view().
+ */
+function crf_request_block_view($delta = '') {
+  $block = array();
+
+  switch ($delta) {
+    case 'create_request':
+      $block['subject'] = t('Create Request');
+      $block['content'] = _crf_request_create_request();
+      break;
+  }
+
+  return $block;
+}
+
+/**
+ * Create request block
+ */
+function _crf_request_create_request() {
+  $link_create = l('Create request', 'node/add/request');
+  return $link_create;
+}
 
 /**
  * Implements hook_form_FORM_ID_alter().
