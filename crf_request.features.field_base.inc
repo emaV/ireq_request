@@ -370,7 +370,7 @@ function crf_request_field_default_field_bases() {
         'view' => array(
           'args' => array(),
           'display_name' => 'entityreference_1',
-          'view_name' => 'users',
+          'view_name' => 'users_request_recipients',
         ),
       ),
       'target_type' => 'user',
@@ -418,7 +418,7 @@ function crf_request_field_default_field_bases() {
             0 => 89,
           ),
           'display_name' => 'entityreference_1',
-          'view_name' => 'users',
+          'view_name' => 'users_request_recipients',
         ),
       ),
       'target_type' => 'user',
