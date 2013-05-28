@@ -53,7 +53,7 @@ function crf_request_block_view($delta = '') {
  * Create request block
  */
 function _crf_request_create_request() {
-  $link_create = l('Create request', 'node/add/request');
+  $link_create = l('Create request', 'node/add/request', array('attributes' => array('class' => array('button', 'create-request'))));
   return $link_create;
 }
 
