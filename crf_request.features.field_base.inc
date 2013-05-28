@@ -414,9 +414,7 @@ function crf_request_field_default_field_bases() {
           ),
         ),
         'view' => array(
-          'args' => array(
-            0 => 89,
-          ),
+          'args' => array(),
           'display_name' => 'entityreference_1',
           'view_name' => 'users_request_recipients',
         ),
