@@ -86,6 +86,7 @@ features[variable][] = node_preview_report
 features[variable][] = node_preview_request
 features[variable][] = node_submitted_report
 features[variable][] = node_submitted_request
+features[variable][] = pathauto_node_request_pattern
 features[views_view][] = eva_field_collection_request
 features_exclude[field][taxonomy_term-reporting_types-field_content_type] = taxonomy_term-reporting_types-field_content_type
 features_exclude[field][node-request-field_append_to_alert_email] = node-request-field_append_to_alert_email
