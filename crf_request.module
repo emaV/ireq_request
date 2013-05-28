@@ -64,14 +64,14 @@ function crf_request_form_request_node_form_alter(&$form, &$form_state, $form_id
   $node = $form['#node'];
   if (!isset($node->nid)) {
     $form['actions']['submit']['#value'] = t('Create & Send Info Request');
-
+/*
     // Help link
     $help_link = theme('advanced_help_topic', array(
       'module' => 'crf_request',
       'topic' => 'request-email',
     ));
     $form['field_append_to_alert_email']['#prefix'] = $help_link . '&nbsp;' . t('Show me an Information Request email example');
-
+*/
     if (isset($form['field_collection_request'])) {
 
       // check form step (mail preview is actually a step)
