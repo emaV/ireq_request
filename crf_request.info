@@ -13,6 +13,7 @@ dependencies[] = field_collection_views
 dependencies[] = file
 dependencies[] = list
 dependencies[] = options
+dependencies[] = prepopulate
 dependencies[] = rules
 dependencies[] = strongarm
 dependencies[] = taxonomy
