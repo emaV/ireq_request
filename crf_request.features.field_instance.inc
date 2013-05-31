@@ -472,12 +472,9 @@ function crf_request_field_default_field_instances() {
       'default' => array(
         'label' => 'inline',
         'module' => 'text',
-        'settings' => array(
-          'diff_custom' => 0,
-          'diff_custom_settings' => array(),
-        ),
+        'settings' => array(),
         'type' => 'text_default',
-        'weight' => 6,
+        'weight' => 3,
       ),
       'entityreference_view_widget' => array(
         'label' => 'above',
@@ -555,8 +552,6 @@ function crf_request_field_default_field_instances() {
         'module' => 'field_collection_views',
         'settings' => array(
           'add' => '',
-          'diff_custom' => 0,
-          'diff_custom_settings' => array(),
           'display_id' => 'default',
           'name' => 'field_collection_requests_view',
         ),
@@ -616,11 +611,11 @@ function crf_request_field_default_field_instances() {
     'description' => 'Set this request to "internal" to make the request and all submitted data to be private to OCHA only',
     'display' => array(
       'default' => array(
-        'label' => 'above',
+        'label' => 'inline',
         'module' => 'list',
         'settings' => array(),
         'type' => 'list_default',
-        'weight' => 7,
+        'weight' => 1,
       ),
       'teaser' => array(
         'label' => 'above',
@@ -659,8 +654,6 @@ function crf_request_field_default_field_instances() {
         'label' => 'inline',
         'module' => 'date',
         'settings' => array(
-          'diff_custom' => 0,
-          'diff_custom_settings' => array(),
           'format_type' => 'long',
           'fromto' => 'both',
           'multiple_from' => '',
@@ -668,7 +661,7 @@ function crf_request_field_default_field_instances() {
           'multiple_to' => '',
         ),
         'type' => 'date_default',
-        'weight' => 1,
+        'weight' => 0,
       ),
       'entityreference_view_widget' => array(
         'label' => 'above',
