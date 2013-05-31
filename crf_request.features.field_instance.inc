@@ -538,7 +538,7 @@ function crf_request_field_default_field_instances() {
         'rows' => 5,
       ),
       'type' => 'text_textarea',
-      'weight' => 9,
+      'weight' => 6,
     ),
     'workbench_access_field' => 0,
   );
@@ -600,6 +600,51 @@ function crf_request_field_default_field_instances() {
       ),
       'type' => 'field_collection_embed',
       'weight' => 5,
+    ),
+    'workbench_access_field' => 0,
+  );
+
+  // Exported field_instance: 'node-request-field_internal_report'
+  $field_instances['node-request-field_internal_report'] = array(
+    'bundle' => 'request',
+    'default_value' => array(
+      0 => array(
+        'value' => 0,
+      ),
+    ),
+    'deleted' => 0,
+    'description' => 'Set this request to "internal" to make the request and all submitted data to be private to OCHA only',
+    'display' => array(
+      'default' => array(
+        'label' => 'above',
+        'module' => 'list',
+        'settings' => array(),
+        'type' => 'list_default',
+        'weight' => 7,
+      ),
+      'teaser' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+    ),
+    'entity_type' => 'node',
+    'field_name' => 'field_internal_report',
+    'label' => 'Internal Report',
+    'required' => 0,
+    'settings' => array(
+      'entity_translation_sync' => FALSE,
+      'user_register_form' => FALSE,
+    ),
+    'widget' => array(
+      'active' => 1,
+      'module' => 'options',
+      'settings' => array(
+        'display_label' => 0,
+      ),
+      'type' => 'options_onoff',
+      'weight' => 4,
     ),
     'workbench_access_field' => 0,
   );
@@ -721,43 +766,6 @@ function crf_request_field_default_field_instances() {
     'workbench_access_field' => 0,
   );
 
-  // Exported field_instance: 'taxonomy_term-reporting_types-field_internal_report'
-  $field_instances['taxonomy_term-reporting_types-field_internal_report'] = array(
-    'bundle' => 'reporting_types',
-    'default_value' => array(
-      0 => array(
-        'value' => 1,
-      ),
-    ),
-    'deleted' => 0,
-    'description' => '',
-    'display' => array(
-      'default' => array(
-        'label' => 'above',
-        'module' => 'list',
-        'settings' => array(),
-        'type' => 'list_default',
-        'weight' => 1,
-      ),
-    ),
-    'entity_type' => 'taxonomy_term',
-    'field_name' => 'field_internal_report',
-    'label' => 'Internal Report',
-    'required' => 1,
-    'settings' => array(
-      'entity_translation_sync' => FALSE,
-      'user_register_form' => FALSE,
-    ),
-    'widget' => array(
-      'active' => 1,
-      'module' => 'options',
-      'settings' => array(),
-      'type' => 'options_buttons',
-      'weight' => 32,
-    ),
-    'workbench_access_field' => 0,
-  );
-
   // Translatables
   // Included for use with string extractors like potx.
   t('Append to Information Request email');
@@ -771,6 +779,7 @@ function crf_request_field_default_field_instances() {
   t('Reporting types');
   t('Request');
   t('Requested by');
+  t('Set this request to "internal" to make the request and all submitted data to be private to OCHA only');
 
   return $field_instances;
 }

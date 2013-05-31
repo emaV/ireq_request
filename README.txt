@@ -47,9 +47,9 @@ node-report-field_report_description
 node-request-field_append_to_alert_email
 node-request-field_collection_request
 node-request-field_request_deadline
+node-request-field_internal_report
 
 taxonomy_term-reporting_types-field_content_type
-taxonomy_term-reporting_types-field_internal_report
 
 
 == Rules (crf_request.rules_defaults.inc)

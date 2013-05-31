@@ -194,7 +194,7 @@ function crf_request_field_default_field_bases() {
     'settings' => array(
       'allowed_values' => array(
         0 => 'External',
-        1 => 'Internal',
+        1 => 'Internal OCHA Request',
       ),
       'allowed_values_function' => '',
       'entity_translation_sync' => FALSE,
