@@ -474,7 +474,7 @@ function crf_request_field_default_field_instances() {
         'module' => 'text',
         'settings' => array(),
         'type' => 'text_default',
-        'weight' => 3,
+        'weight' => 4,
       ),
       'entityreference_view_widget' => array(
         'label' => 'above',
@@ -548,7 +548,7 @@ function crf_request_field_default_field_instances() {
     'description' => '',
     'display' => array(
       'default' => array(
-        'label' => 'above',
+        'label' => 'hidden',
         'module' => 'field_collection_views',
         'settings' => array(
           'add' => '',
@@ -556,7 +556,7 @@ function crf_request_field_default_field_instances() {
           'name' => 'field_collection_requests_view',
         ),
         'type' => 'field_collection_views_view',
-        'weight' => 2,
+        'weight' => 3,
       ),
       'entityreference_view_widget' => array(
         'label' => 'above',
@@ -615,7 +615,7 @@ function crf_request_field_default_field_instances() {
         'module' => 'list',
         'settings' => array(),
         'type' => 'list_default',
-        'weight' => 1,
+        'weight' => 2,
       ),
       'teaser' => array(
         'label' => 'above',
@@ -661,7 +661,7 @@ function crf_request_field_default_field_instances() {
           'multiple_to' => '',
         ),
         'type' => 'date_default',
-        'weight' => 0,
+        'weight' => 1,
       ),
       'entityreference_view_widget' => array(
         'label' => 'above',
