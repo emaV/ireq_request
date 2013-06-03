@@ -117,6 +117,7 @@ function crf_request_form_request_node_form_alter(&$form, &$form_state, $form_id
     if (isset($form['field_collection_request']['und'][$max_delta]['remove_button'])) {
       $form['field_collection_request']['und'][$max_delta]['remove_button']['#value'] = t('Clear');
     }
+    $form['field_collection_request']['und']['add_more']['#value'] = t('Add another report');
   }
 //dpm(array('form' => $form, 'form_state' => $form_state), 'crf_request_form_request_node_form_alter - FINAL');
 }
@@ -127,20 +128,23 @@ function crf_request_form_request_node_form_alter(&$form, &$form_state, $form_id
  */
 function crf_request_field_collection_request_preview_validate($form, &$form_state) {
 
-//  $element = $form['field_collection_request'];
-//  field_collection_field_widget_embed_validate($element, &$form_state, $form);
-
-//dpm($form, 'crf_request_field_collection_request_preview_validate > form');
-//  entity_form_field_validate('node', $form, $form_state);
-
-/*
   $max_delta = $form['field_collection_request']['und']['#max_delta'];
-  $field_collection_request_values = $form_state['values']['field_collection_request'];
-
-  for ($delta=0; $delta<=$max_delta; $delta++) {
-    //check 
+  for ($i=0; $i<=$max_delta; $i++) {
+    // Check reporting type
+    if (empty($form_state['values']['field_collection_request']['und'][$i]['field_reporting_type']['und'][0]['target_id'])) {
+      form_set_error('field_collection_request][und][' . $i . '][field_reporting_type', t('Please select a Report type'));
+    }
+    // Check recipients
+    $recipient_delta = count($form_state['values']['field_collection_request']['und'][$i]['field_request_recipients']['und']);
+    if ( ($recipient_delta < 2) && empty($form_state['values']['field_collection_request']['und'][$i]['field_request_recipients']['und'][0]['target_id']) ) {
+      form_set_error('field_collection_request][und][' . $i . '][field_request_recipients', t('Please select a Recipient'));
+    }
+    // Check Referral
+    if (empty($form_state['values']['field_collection_request']['und'][$i]['field_request_requested_by']['und'][0]['target_id'])) {
+      form_set_error('field_collection_request][und][' . $i . '][field_request_requested_by', t('Please select a Referral'));
+    }
   }
-*/
+//dpm($form, 'crf_request_field_collection_request_preview_validate > form');
 }
 
 /**
@@ -208,23 +212,39 @@ function theme_field_collection_request_preview($element) {
 
     // get report type
     $reporting_type_tid = $element[$delta]['field_reporting_type']['und'][0]['target_id'];
-    $reporting_type_term = taxonomy_term_load($reporting_type_tid);
-    $reporting_type = $reporting_type_term->name;
-
+    if ($reporting_type_tid) {
+      $reporting_type_term = taxonomy_term_load($reporting_type_tid);
+      $reporting_type = $reporting_type_term->name;
+    }
+    else {
+      $reporting_type = 'n/a';
+    }
     // get requested by
     $requested_by_uid = $element[$delta]['field_request_requested_by']['und'][0]['target_id'];
-    $requested_by = user_load($requested_by_uid);
-    $requested_by_wrapper = entity_metadata_wrapper('user', $requested_by);
-    $requested_by_first_name = $requested_by_wrapper->field_first_name->value();
-    $requested_by_last_name = $requested_by_wrapper->field_last_name->value();
+    if ($requested_by_uid) {
+      $requested_by = user_load($requested_by_uid);
+      $requested_by_wrapper = entity_metadata_wrapper('user', $requested_by);
+      $requested_by_first_name = $requested_by_wrapper->field_first_name->value();
+      $requested_by_last_name = $requested_by_wrapper->field_last_name->value();
+    }
+    else {
+      $requested_by_first_name = 'n/a';
+      $requested_by_last_name = 'n/a';
+    }
 
     // get recipient
     foreach ($element[$delta]['field_request_recipients']['und'] as $recipient) {
       $recipient_uid = $recipient['target_id'];
-      $recipient = user_load($recipient_uid);
-      $recipient_wrapper = entity_metadata_wrapper('user', $recipient);
-      $recipient_first_name = $recipient_wrapper->field_first_name->value();
-      $recipient_last_name = $recipient_wrapper->field_last_name->value();
+      if ($recipient_uid) {
+        $recipient = user_load($recipient_uid);
+        $recipient_wrapper = entity_metadata_wrapper('user', $recipient);
+        $recipient_first_name = $recipient_wrapper->field_first_name->value();
+        $recipient_last_name = $recipient_wrapper->field_last_name->value();
+      }
+      else {
+        $recipient_first_name = 'n/a';
+        $recipient_last_name = 'n/a';
+      }
 
       // get recipient email body
       $append_to_alert = $element[$delta]['field_append_to_alert_email']['und'][0]['value'];
