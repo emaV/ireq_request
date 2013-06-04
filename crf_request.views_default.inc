@@ -186,11 +186,24 @@ function crf_request_views_default_views() {
   $handler->display->display_options['fields']['title']['table'] = 'node';
   $handler->display->display_options['fields']['title']['field'] = 'title';
   $handler->display->display_options['fields']['title']['relationship'] = 'field_collection_request_node';
+  $handler->display->display_options['fields']['title']['element_type'] = 'div';
+  $handler->display->display_options['fields']['title']['element_class'] = 'field-items';
+  $handler->display->display_options['fields']['title']['element_label_type'] = 'div';
+  $handler->display->display_options['fields']['title']['element_label_class'] = 'field-label';
+  $handler->display->display_options['fields']['title']['element_wrapper_type'] = 'div';
+  $handler->display->display_options['fields']['title']['element_wrapper_class'] = 'field';
+  $handler->display->display_options['fields']['title']['element_default_classes'] = FALSE;
   /* Field: Content: Deadline for information submission */
   $handler->display->display_options['fields']['field_request_deadline']['id'] = 'field_request_deadline';
   $handler->display->display_options['fields']['field_request_deadline']['table'] = 'field_data_field_request_deadline';
   $handler->display->display_options['fields']['field_request_deadline']['field'] = 'field_request_deadline';
   $handler->display->display_options['fields']['field_request_deadline']['relationship'] = 'field_collection_request_node';
+  $handler->display->display_options['fields']['field_request_deadline']['element_class'] = 'field-items';
+  $handler->display->display_options['fields']['field_request_deadline']['element_label_type'] = 'div';
+  $handler->display->display_options['fields']['field_request_deadline']['element_label_class'] = 'field-label';
+  $handler->display->display_options['fields']['field_request_deadline']['element_wrapper_type'] = 'div';
+  $handler->display->display_options['fields']['field_request_deadline']['element_wrapper_class'] = 'field';
+  $handler->display->display_options['fields']['field_request_deadline']['element_default_classes'] = FALSE;
   $handler->display->display_options['fields']['field_request_deadline']['settings'] = array(
     'format_type' => 'long',
     'fromto' => 'both',
@@ -207,6 +220,13 @@ function crf_request_views_default_views() {
   $handler->display->display_options['fields']['field_reporting_type']['id'] = 'field_reporting_type';
   $handler->display->display_options['fields']['field_reporting_type']['table'] = 'field_data_field_reporting_type';
   $handler->display->display_options['fields']['field_reporting_type']['field'] = 'field_reporting_type';
+  $handler->display->display_options['fields']['field_reporting_type']['element_type'] = 'div';
+  $handler->display->display_options['fields']['field_reporting_type']['element_class'] = 'field-items';
+  $handler->display->display_options['fields']['field_reporting_type']['element_label_type'] = 'div';
+  $handler->display->display_options['fields']['field_reporting_type']['element_label_class'] = 'field-label';
+  $handler->display->display_options['fields']['field_reporting_type']['element_wrapper_type'] = 'div';
+  $handler->display->display_options['fields']['field_reporting_type']['element_wrapper_class'] = 'field';
+  $handler->display->display_options['fields']['field_reporting_type']['element_default_classes'] = FALSE;
   $handler->display->display_options['fields']['field_reporting_type']['settings'] = array(
     'link' => 0,
   );
@@ -214,6 +234,11 @@ function crf_request_views_default_views() {
   $handler->display->display_options['fields']['field_request_requested_by']['id'] = 'field_request_requested_by';
   $handler->display->display_options['fields']['field_request_requested_by']['table'] = 'field_data_field_request_requested_by';
   $handler->display->display_options['fields']['field_request_requested_by']['field'] = 'field_request_requested_by';
+  $handler->display->display_options['fields']['field_request_requested_by']['element_class'] = 'field-items';
+  $handler->display->display_options['fields']['field_request_requested_by']['element_label_class'] = 'field-label';
+  $handler->display->display_options['fields']['field_request_requested_by']['element_wrapper_type'] = 'div';
+  $handler->display->display_options['fields']['field_request_requested_by']['element_wrapper_class'] = 'field';
+  $handler->display->display_options['fields']['field_request_requested_by']['element_default_classes'] = FALSE;
   $handler->display->display_options['fields']['field_request_requested_by']['settings'] = array(
     'link' => 0,
   );
@@ -221,6 +246,11 @@ function crf_request_views_default_views() {
   $handler->display->display_options['fields']['field_request_recipients']['id'] = 'field_request_recipients';
   $handler->display->display_options['fields']['field_request_recipients']['table'] = 'field_data_field_request_recipients';
   $handler->display->display_options['fields']['field_request_recipients']['field'] = 'field_request_recipients';
+  $handler->display->display_options['fields']['field_request_recipients']['element_class'] = 'field-items';
+  $handler->display->display_options['fields']['field_request_recipients']['element_label_class'] = 'field-label';
+  $handler->display->display_options['fields']['field_request_recipients']['element_wrapper_type'] = 'div';
+  $handler->display->display_options['fields']['field_request_recipients']['element_wrapper_class'] = 'field';
+  $handler->display->display_options['fields']['field_request_recipients']['element_default_classes'] = FALSE;
   $handler->display->display_options['fields']['field_request_recipients']['settings'] = array(
     'link' => 0,
   );
