@@ -193,6 +193,19 @@ function crf_request_views_default_views() {
   $handler->display->display_options['fields']['title']['element_wrapper_type'] = 'div';
   $handler->display->display_options['fields']['title']['element_wrapper_class'] = 'field';
   $handler->display->display_options['fields']['title']['element_default_classes'] = FALSE;
+  /* Field: Field: Emergencies */
+  $handler->display->display_options['fields']['field_emergencies']['id'] = 'field_emergencies';
+  $handler->display->display_options['fields']['field_emergencies']['table'] = 'field_data_field_emergencies';
+  $handler->display->display_options['fields']['field_emergencies']['field'] = 'field_emergencies';
+  $handler->display->display_options['fields']['field_emergencies']['relationship'] = 'field_collection_request_node';
+  $handler->display->display_options['fields']['field_emergencies']['element_type'] = 'div';
+  $handler->display->display_options['fields']['field_emergencies']['element_class'] = 'field-items';
+  $handler->display->display_options['fields']['field_emergencies']['element_label_type'] = 'div';
+  $handler->display->display_options['fields']['field_emergencies']['element_label_class'] = 'field-label';
+  $handler->display->display_options['fields']['field_emergencies']['element_wrapper_type'] = 'div';
+  $handler->display->display_options['fields']['field_emergencies']['element_wrapper_class'] = 'field';
+  $handler->display->display_options['fields']['field_emergencies']['element_default_classes'] = FALSE;
+  $handler->display->display_options['fields']['field_emergencies']['hide_empty'] = TRUE;
   /* Field: Content: Deadline for information submission */
   $handler->display->display_options['fields']['field_request_deadline']['id'] = 'field_request_deadline';
   $handler->display->display_options['fields']['field_request_deadline']['table'] = 'field_data_field_request_deadline';
@@ -293,6 +306,7 @@ function crf_request_views_default_views() {
     t('Recipients'),
     t('All'),
     t('EVA Field'),
+    t('Emergencies'),
   );
   $export['eva_field_collection_request'] = $view;
 
