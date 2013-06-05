@@ -246,7 +246,7 @@ function crf_request_views_default_views() {
   $handler->display->display_options['fields']['field_request_recipients']['id'] = 'field_request_recipients';
   $handler->display->display_options['fields']['field_request_recipients']['table'] = 'field_data_field_request_recipients';
   $handler->display->display_options['fields']['field_request_recipients']['field'] = 'field_request_recipients';
-  $handler->display->display_options['fields']['field_request_recipients']['exclude'] = TRUE; 
+  $handler->display->display_options['fields']['field_request_recipients']['exclude'] = TRUE;
   $handler->display->display_options['fields']['field_request_recipients']['element_class'] = 'field-items';
   $handler->display->display_options['fields']['field_request_recipients']['element_label_class'] = 'field-label';
   $handler->display->display_options['fields']['field_request_recipients']['element_wrapper_type'] = 'div';
