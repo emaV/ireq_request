@@ -85,6 +85,47 @@ function crf_request_field_default_field_instances() {
     'workbench_access_field' => 0,
   );
 
+  // Exported field_instance: 'field_collection_item-field_collection_request-field_report'
+  $field_instances['field_collection_item-field_collection_request-field_report'] = array(
+    'bundle' => 'field_collection_request',
+    'default_value' => NULL,
+    'default_value_function' => '',
+    'deleted' => 0,
+    'description' => '',
+    'display' => array(
+      'default' => array(
+        'label' => 'above',
+        'module' => 'entityreference',
+        'settings' => array(
+          'link' => FALSE,
+        ),
+        'type' => 'entityreference_label',
+        'weight' => 4,
+      ),
+    ),
+    'entity_type' => 'field_collection_item',
+    'field_name' => 'field_report',
+    'label' => 'Report',
+    'required' => 0,
+    'settings' => array(
+      'behaviors' => array(
+        'prepopulate' => array(
+          'status' => 0,
+        ),
+      ),
+      'entity_translation_sync' => FALSE,
+      'user_register_form' => FALSE,
+    ),
+    'widget' => array(
+      'active' => 1,
+      'module' => 'options',
+      'settings' => array(),
+      'type' => 'options_select',
+      'weight' => 4,
+    ),
+    'workbench_access_field' => 0,
+  );
+
   // Exported field_instance: 'field_collection_item-field_collection_request-field_reporting_type'
   $field_instances['field_collection_item-field_collection_request-field_reporting_type'] = array(
     'bundle' => 'field_collection_request',
@@ -809,6 +850,7 @@ function crf_request_field_default_field_instances() {
   t('Internal Report');
   t('Recipient');
   t('Recipients');
+  t('Report');
   t('Reporting types');
   t('Request');
   t('Requested by');
