@@ -129,6 +129,7 @@ function crf_request_field_default_field_bases() {
         'assessments_batch' => 'Assessments',
         'contacts_upload' => 'Contacts',
         'indicator_data_batch' => 'Indicator Values',
+        'report' => 'Report',
         'sectoral_analysis' => 'Sectoral Analysis',
         'hr_sitrep' => 'Situation Report Information',
       ),
