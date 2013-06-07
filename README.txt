@@ -38,13 +38,13 @@ field_collection_item-field_collection_request-field_append_to_alert_email
 field_collection_item-field_collection_request-field_reporting_type
 field_collection_item-field_collection_request-field_request_recipients
 field_collection_item-field_collection_request-field_request_requested_by
+field_collection_item-field_collection_request-field_report
 
 node-report-field_collection_request_ref
 node-report-field_file
 node-report-field_recipient
 node-report-field_report_description
 
-node-request-field_append_to_alert_email
 node-request-field_collection_request
 node-request-field_request_deadline
 node-request-field_internal_report
