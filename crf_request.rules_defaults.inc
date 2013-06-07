@@ -12,6 +12,7 @@ function crf_request_default_rules_configuration() {
   $items['rules_content_published'] = entity_import('rules_config', '{ "rules_content_published" : {
       "LABEL" : "Workflow content type published",
       "PLUGIN" : "reaction rule",
+      "ACTIVE" : false,
       "REQUIRES" : [ "workbench_moderation", "rules" ],
       "ON" : [ "workbench_moderation_after_moderation_transition" ],
       "IF" : [
@@ -79,6 +80,7 @@ function crf_request_default_rules_configuration() {
   $items['rules_workflow_content_type_submitted_to_ocha'] = entity_import('rules_config', '{ "rules_workflow_content_type_submitted_to_ocha" : {
       "LABEL" : "Workflow content type submitted to OCHA",
       "PLUGIN" : "reaction rule",
+      "ACTIVE" : false,
       "REQUIRES" : [ "workbench_moderation", "rules", "workbench_access" ],
       "ON" : [ "workbench_moderation_after_moderation_transition" ],
       "IF" : [
