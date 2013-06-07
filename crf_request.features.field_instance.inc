@@ -557,7 +557,7 @@ function crf_request_field_default_field_instances() {
         'maxlength_js_label' => 'Content limited to @limit characters, remaining: <strong>@remaining</strong>',
       ),
       'type' => 'field_collection_embed',
-      'weight' => 6,
+      'weight' => 7,
     ),
     'workbench_access_field' => 0,
   );
@@ -596,13 +596,13 @@ function crf_request_field_default_field_instances() {
       'module' => 'options',
       'settings' => array(),
       'type' => 'options_select',
-      'weight' => 5,
+      'weight' => 6,
     ),
     'workbench_access_field' => 0,
   );
 
-  // Exported field_instance: 'node-request-field_internal_report'
-  $field_instances['node-request-field_internal_report'] = array(
+  // Exported field_instance: 'node-request-field_request_audience'
+  $field_instances['node-request-field_request_audience'] = array(
     'bundle' => 'request',
     'default_value' => array(
       0 => array(
@@ -617,7 +617,7 @@ function crf_request_field_default_field_instances() {
         'module' => 'list',
         'settings' => array(),
         'type' => 'list_default',
-        'weight' => 2,
+        'weight' => 6,
       ),
       'teaser' => array(
         'label' => 'above',
@@ -627,8 +627,8 @@ function crf_request_field_default_field_instances() {
       ),
     ),
     'entity_type' => 'node',
-    'field_name' => 'field_internal_report',
-    'label' => 'Internal Report',
+    'field_name' => 'field_request_audience',
+    'label' => 'Request Audience',
     'required' => 0,
     'settings' => array(
       'entity_translation_sync' => FALSE,
@@ -641,7 +641,7 @@ function crf_request_field_default_field_instances() {
         'display_label' => 0,
       ),
       'type' => 'options_onoff',
-      'weight' => 4,
+      'weight' => 5,
     ),
     'workbench_access_field' => 0,
   );
@@ -767,12 +767,12 @@ function crf_request_field_default_field_instances() {
   t('Deadline for information submission');
   t('Description');
   t('Emergencies');
-  t('Internal Report');
   t('Recipient');
   t('Recipients');
   t('Report');
   t('Reporting types');
   t('Request');
+  t('Request Audience');
   t('Requested by');
   t('Set this request to "internal" to make the request and all submitted data to be private to OCHA only');
 
