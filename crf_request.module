@@ -118,6 +118,10 @@ function crf_request_form_request_node_form_alter(&$form, &$form_state, $form_id
       $form['field_collection_request']['und'][$max_delta]['remove_button']['#value'] = t('Clear');
     }
     $form['field_collection_request']['und']['add_more']['#value'] = t('Add another report');
+    // remove report entity reference form element
+    for ($i = 0; $i <= $max_delta; $i++) {
+      unset($form['field_collection_request']['und'][$i]['field_report']);
+    }
   }
 //dpm(array('form' => $form, 'form_state' => $form_state), 'crf_request_form_request_node_form_alter - FINAL');
 }
