@@ -13,13 +13,6 @@ function crf_request_strongarm() {
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
-  $strongarm->name = 'auto_entitylabel_node_report';
-  $strongarm->value = '1';
-  $export['auto_entitylabel_node_report'] = $strongarm;
-
-  $strongarm = new stdClass();
-  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
-  $strongarm->api_version = 1;
   $strongarm->name = 'auto_entitylabel_node_request';
   $strongarm->value = '1';
   $export['auto_entitylabel_node_request'] = $strongarm;
@@ -27,23 +20,9 @@ function crf_request_strongarm() {
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
-  $strongarm->name = 'auto_entitylabel_pattern_node_report';
-  $strongarm->value = '[node:field-collection-request-ref:field-reporting-type:name] [node:field-collection-request-ref:item-id]-[node:field-recipient:uid]';
-  $export['auto_entitylabel_pattern_node_report'] = $strongarm;
-
-  $strongarm = new stdClass();
-  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
-  $strongarm->api_version = 1;
   $strongarm->name = 'auto_entitylabel_pattern_node_request';
   $strongarm->value = 'Request [node:nid] - [node:created:medium]';
   $export['auto_entitylabel_pattern_node_request'] = $strongarm;
-
-  $strongarm = new stdClass();
-  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
-  $strongarm->api_version = 1;
-  $strongarm->name = 'auto_entitylabel_php_node_report';
-  $strongarm->value = 0;
-  $export['auto_entitylabel_php_node_report'] = $strongarm;
 
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
