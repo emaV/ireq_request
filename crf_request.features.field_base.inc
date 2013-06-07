@@ -133,7 +133,7 @@ function crf_request_field_default_field_bases() {
         'hr_sitrep' => 'Situation Report Information',
         'report' => 'Report',
       ),
-      'allowed_values_function' => '',
+      'allowed_values_function' => 'crf_core_list_options_reports',
       'entity_translation_sync' => FALSE,
     ),
     'translatable' => 0,

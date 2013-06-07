@@ -822,7 +822,7 @@ function crf_request_field_default_field_instances() {
     'entity_type' => 'taxonomy_term',
     'field_name' => 'field_content_type',
     'label' => 'Content type',
-    'required' => 0,
+    'required' => 1,
     'settings' => array(
       'entity_translation_sync' => FALSE,
       'user_register_form' => FALSE,
@@ -830,11 +830,9 @@ function crf_request_field_default_field_instances() {
     'widget' => array(
       'active' => 1,
       'module' => 'options',
-      'settings' => array(
-        'maxlength_js_label' => 'Content limited to @limit characters, remaining: <strong>@remaining</strong>',
-      ),
+      'settings' => array(),
       'type' => 'options_select',
-      'weight' => 31,
+      'weight' => 1,
     ),
     'workbench_access_field' => 0,
   );
