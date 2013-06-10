@@ -16,15 +16,23 @@ function crf_request_default_rules_configuration() {
       "REQUIRES" : [ "rules" ],
       "USES VARIABLES" : {
         "node_report" : { "label" : "Report Node", "type" : "node" },
-        "field_collection_request" : { "label" : "Field Collection Request", "type" : "field_collection_item" }
+        "field_collection_request" : { "label" : "Field Collection Request", "type" : "field_collection_item" },
+        "user_recipient" : { "label" : "Recipient", "type" : "user" }
       },
       "IF" : [
-        { "entity_has_field" : { "entity" : [ "node-report" ], "field" : "field_collection_request_ref" } }
+        { "entity_has_field" : { "entity" : [ "node-report" ], "field" : "field_collection_request_ref" } },
+        { "entity_has_field" : { "entity" : [ "node-report" ], "field" : "field_recipient" } }
       ],
       "DO" : [
         { "data_set" : {
             "data" : [ "node-report:field-collection-request-ref" ],
             "value" : [ "field-collection-request" ]
+          }
+        },
+        { "data_set" : { "data" : [ "node-report:author" ], "value" : [ "user-recipient" ] } },
+        { "data_set" : {
+            "data" : [ "node-report:field-recipient" ],
+            "value" : [ "user-recipient" ]
           }
         }
       ]
@@ -92,7 +100,8 @@ function crf_request_default_rules_configuration() {
         { "data_set" : { "data" : [ "node-report" ], "value" : [ "node-report-new" ] } },
         { "component_rules_check_report_references" : {
             "node_report" : [ "node_report" ],
-            "field_collection_request" : [ "field_collection_request" ]
+            "field_collection_request" : [ "field_collection_request" ],
+            "user_recipient" : [ "user_recipient" ]
           }
         },
         { "entity_save" : { "data" : [ "node-report" ], "immediate" : 1 } }
