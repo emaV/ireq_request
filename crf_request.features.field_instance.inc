@@ -334,6 +334,7 @@ function crf_request_field_default_field_instances() {
   $field_instances['node-report-field_recipient'] = array(
     'bundle' => 'report',
     'default_value' => NULL,
+    'default_value_function' => '',
     'deleted' => 0,
     'description' => '',
     'display' => array(
@@ -363,18 +364,21 @@ function crf_request_field_default_field_instances() {
     ),
     'entity_type' => 'node',
     'field_name' => 'field_recipient',
-    'label' => 'Recipient',
+    'label' => 'Requested to',
     'required' => 0,
     'settings' => array(
+      'behaviors' => array(
+        'prepopulate' => array(
+          'status' => 0,
+        ),
+      ),
       'entity_translation_sync' => FALSE,
       'user_register_form' => FALSE,
     ),
     'widget' => array(
       'active' => 1,
       'module' => 'options',
-      'settings' => array(
-        'maxlength_js_label' => 'Content limited to @limit characters, remaining: <strong>@remaining</strong>',
-      ),
+      'settings' => array(),
       'type' => 'options_select',
       'weight' => 4,
     ),
@@ -726,12 +730,12 @@ function crf_request_field_default_field_instances() {
   t('Deadline for information submission');
   t('Description');
   t('Emergencies');
-  t('Recipient');
   t('Recipients');
   t('Reporting types');
   t('Request');
   t('Request Audience');
   t('Requested by');
+  t('Requested to');
   t('Set this request to "internal" to make the request and all submitted data to be private to OCHA only');
 
   return $field_instances;
