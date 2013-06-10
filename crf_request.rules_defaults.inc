@@ -9,6 +9,27 @@
  */
 function crf_request_default_rules_configuration() {
   $items = array();
+  $items['rules_check_report_references'] = entity_import('rules_config', '{ "rules_check_report_references" : {
+      "LABEL" : "Check Report References",
+      "PLUGIN" : "rule",
+      "TAGS" : [ "CFR" ],
+      "REQUIRES" : [ "rules" ],
+      "USES VARIABLES" : {
+        "node_report" : { "label" : "Report Node", "type" : "node" },
+        "field_collection_request" : { "label" : "Field Collection Request", "type" : "field_collection_item" }
+      },
+      "IF" : [
+        { "entity_has_field" : { "entity" : [ "node-report" ], "field" : "field_collection_request_ref" } }
+      ],
+      "DO" : [
+        { "data_set" : {
+            "data" : [ "node-report:field-collection-request-ref" ],
+            "value" : [ "field-collection-request" ]
+          }
+        }
+      ]
+    }
+  }');
   $items['rules_content_published'] = entity_import('rules_config', '{ "rules_content_published" : {
       "LABEL" : "Workflow content type published",
       "PLUGIN" : "reaction rule",
@@ -37,6 +58,80 @@ function crf_request_default_rules_configuration() {
       ]
     }
   }');
+  $items['rules_create_report_from_report_term'] = entity_import('rules_config', '{ "rules_create_report_from_report_term" : {
+      "LABEL" : "Create Report from Report term",
+      "PLUGIN" : "rule",
+      "TAGS" : [ "CRF" ],
+      "REQUIRES" : [ "rules", "php" ],
+      "USES VARIABLES" : {
+        "report_type_term" : { "label" : "Report Type Term", "type" : "taxonomy_term" },
+        "field_collection_request" : { "label" : "Field Collection Request", "type" : "field_collection_item" },
+        "user_recipient" : { "label" : "Recipient", "type" : "user" },
+        "node_report" : { "label" : "Report Node", "type" : "node", "parameter" : false }
+      },
+      "IF" : [
+        { "entity_has_field" : { "entity" : [ "report-type-term" ], "field" : "field_content_type" } }
+      ],
+      "DO" : [
+        { "drupal_message" : { "message" : "Create Report from Report term:\\u003Cbr\\/\\u003E\\r\\n#[report-type-term:tid]#\\tTerm ID\\tThe unique ID of the taxonomy term.\\r\\n#[report-type-term:field_content_type]#\\tContent type\\tList (text) field.\\r\\n\\r\\n\\u003C?php\\r\\ndpm($report_type_term, \\u0027Create Report from Report term \\u003E $report_type_term\\u0027);\\r\\n?\\u003E" } },
+        { "data_convert" : {
+            "USING" : { "type" : "token", "value" : [ "report-type-term:field-content-type" ] },
+            "PROVIDE" : { "conversion_result" : { "token_node_type" : "Token node type" } }
+          }
+        },
+        { "entity_create" : {
+            "USING" : {
+              "type" : "node",
+              "param_type" : [ "token-node-type" ],
+              "param_title" : "[report-type-term:name] [field-collection-request:item-id]-[user-recipient:uid]",
+              "param_author" : [ "user-recipient" ]
+            },
+            "PROVIDE" : { "entity_created" : { "node_report_new" : "Node Report created" } }
+          }
+        },
+        { "data_set" : { "data" : [ "node-report" ], "value" : [ "node-report-new" ] } },
+        { "component_rules_check_report_references" : {
+            "node_report" : [ "node_report" ],
+            "field_collection_request" : [ "field_collection_request" ]
+          }
+        },
+        { "entity_save" : { "data" : [ "node-report" ], "immediate" : 1 } }
+      ],
+      "PROVIDES VARIABLES" : [ "node_report" ]
+    }
+  }');
+  $items['rules_create_report_from_request_item'] = entity_import('rules_config', '{ "rules_create_report_from_request_item" : {
+      "LABEL" : "Create Report from Request item",
+      "PLUGIN" : "rule",
+      "TAGS" : [ "CFR" ],
+      "REQUIRES" : [ "rules", "php" ],
+      "USES VARIABLES" : {
+        "field_collection_request" : { "label" : "Field Collection Request", "type" : "field_collection_item" },
+        "user_recipient" : { "label" : "Recipient", "type" : "user" }
+      },
+      "IF" : [
+        { "entity_has_field" : {
+            "entity" : [ "field-collection-request" ],
+            "field" : "field_reporting_type"
+          }
+        }
+      ],
+      "DO" : [
+        { "drupal_message" : { "message" : "\\u003C?php\\r\\ndpm($field_collection_request, \\u0027Create Report from Request item \\u003E $field_collection_request\\u0027);\\r\\n?\\u003E" } },
+        { "component_rules_create_report_from_report_term" : {
+            "USING" : {
+              "report_type_term" : [ "field-collection-request:field-reporting-type" ],
+              "field_collection_request" : [ "field_collection_request" ],
+              "user_recipient" : [ "user_recipient" ]
+            },
+            "PROVIDE" : { "node_report" : { "node_report" : "Report Node" } }
+          }
+        },
+        { "drupal_message" : { "message" : "\\u003C?php\\r\\ndpm($node_report, \\u0022Create Report from Request item \\u003E node_report\\u0022);\\r\\ndpm($field_collection_request, \\u0022Create Report from Request item \\u003E field_collection_request\\u0022);\\r\\n?\\u003E\\r\\n\\r\\n" } },
+        { "drupal_message" : { "message" : "Done:\\r\\n\\u003C?php\\r\\ndpm($node_report, \\u0027done: $node_report\\u0027);\\r\\n\\/\\/dpm($node_report_final, \\u0027done: $node_report_final\\u0027);\\r\\n?\\u003E" } }
+      ]
+    }
+  }');
   $items['rules_email_recipients_on_request_submission'] = entity_import('rules_config', '{ "rules_email_recipients_on_request_submission" : {
       "LABEL" : "Email recipients on request submission",
       "PLUGIN" : "reaction rule",
@@ -60,6 +155,11 @@ function crf_request_default_rules_configuration() {
                   "USING" : { "list" : [ "request-item:field-request-recipients" ] },
                   "ITEM" : { "request_item_recipient" : "Current request item recipient" },
                   "DO" : [
+                    { "component_rules_create_report_from_request_item" : {
+                        "field_collection_request" : [ "request-item" ],
+                        "user_recipient" : [ "request_item_recipient" ]
+                      }
+                    },
                     { "mail" : {
                         "to" : "[request-item-recipient:mail]",
                         "subject" : "New [request-item:field-reporting-type] request.",
