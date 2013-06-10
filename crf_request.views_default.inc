@@ -186,6 +186,7 @@ function crf_request_views_default_views() {
   $handler->display->display_options['fields']['title']['table'] = 'node';
   $handler->display->display_options['fields']['title']['field'] = 'title';
   $handler->display->display_options['fields']['title']['relationship'] = 'field_collection_request_node';
+  $handler->display->display_options['fields']['title']['label'] = 'Request';
   $handler->display->display_options['fields']['title']['element_type'] = 'div';
   $handler->display->display_options['fields']['title']['element_class'] = 'field-items';
   $handler->display->display_options['fields']['title']['element_label_type'] = 'div';
@@ -299,9 +300,8 @@ function crf_request_views_default_views() {
     t('Title'),
     t('Deadline for information submission'),
     t('Field collection item ID'),
-    t('.'),
-    t(','),
     t('Reporting types'),
+    t('Request'),
     t('Requested by'),
     t('Recipients'),
     t('All'),
