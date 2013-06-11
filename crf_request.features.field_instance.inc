@@ -482,7 +482,7 @@ function crf_request_field_default_field_instances() {
           'name' => 'field_collection_requests_view',
         ),
         'type' => 'field_collection_views_view',
-        'weight' => 3,
+        'weight' => 2,
       ),
       'entityreference_view_widget' => array(
         'label' => 'above',
@@ -533,11 +533,11 @@ function crf_request_field_default_field_instances() {
     'description' => '',
     'display' => array(
       'default' => array(
-        'label' => 'above',
+        'label' => 'inline',
         'module' => 'taxonomy',
         'settings' => array(),
         'type' => 'taxonomy_term_reference_link',
-        'weight' => 5,
+        'weight' => 0,
       ),
       'teaser' => array(
         'label' => 'above',
@@ -580,7 +580,7 @@ function crf_request_field_default_field_instances() {
         'module' => 'list',
         'settings' => array(),
         'type' => 'list_default',
-        'weight' => 6,
+        'weight' => 1,
       ),
       'teaser' => array(
         'label' => 'above',
@@ -626,7 +626,7 @@ function crf_request_field_default_field_instances() {
           'multiple_to' => '',
         ),
         'type' => 'date_default',
-        'weight' => 1,
+        'weight' => 3,
       ),
       'entityreference_view_widget' => array(
         'label' => 'above',
