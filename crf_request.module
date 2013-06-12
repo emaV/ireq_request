@@ -58,6 +58,51 @@ function _crf_request_create_request() {
 }
 
 /**
+ * Implements hook_form_alter().
+ * Check for field_collection_request_ref field.
+ * If it is there then the node is a "CRF report".
+ */
+function crf_request_form_alter(&$form, &$form_state, $form_id) {
+
+  // check if is CRF report node edit form
+  if (isset($form['field_collection_request_ref'])) {
+
+    $form['#pre_render'][] = 'crf_request_form_report_pre_render';
+//dpm(array('form' => $form, 'form_state' => $form_state), "crf_request_form_alter > $form_id");
+
+  }
+}
+
+/**
+ * Pre-render callback to cleanup node form for CRF report.
+ */
+function crf_request_form_report_pre_render($form) {
+
+  // Get rendered node
+  $node = $form['#node'];
+  $node_view = node_view($node);
+
+  // hide elements
+  hide($form['title']);
+  hide($form['field_collection_request_ref']);
+  $form['field_collection_request_ref_view'] = $node_view['eva_field_collection_request_entity_view_1'];
+  $form['field_collection_request_ref_view']['#weight'] = $form['field_collection_request_ref']['#weight'];
+  hide($form['field_recipient']);
+  $form['field_recipient_view'] = $node_view['field_recipient'];
+  $form['field_recipient_view']['#weight'] = $form['field_recipient']['#weight'];
+  hide($form['comment_settings']);
+  hide($form['path']);
+
+  $form['revision_information']['log_view'] = $node_view['eva_report_workflow_entity_view_1'];
+  $form['revision_information']['log_view']['#weight'] = $form['revision_information']['log']['#weight'] + 1;
+
+//dpm($node_view, 'crf_request_form_report_pre_render > $node_view');
+//dpm($form, 'crf_request_form_report_pre_render > form');
+//dpm($form['revision_information'], 'crf_request_form_report_pre_render > form["revision_information"]');
+  return $form;
+}
+
+/**
  * Implements hook_form_FORM_ID_alter().
  */
 function crf_request_form_request_node_form_alter(&$form, &$form_state, $form_id) {
