@@ -285,10 +285,7 @@ function crf_request_field_default_field_instances() {
       'default' => array(
         'label' => 'above',
         'module' => 'file',
-        'settings' => array(
-          'diff_custom' => 0,
-          'diff_custom_settings' => array(),
-        ),
+        'settings' => array(),
         'type' => 'file_default',
         'weight' => 3,
       ),
@@ -342,8 +339,6 @@ function crf_request_field_default_field_instances() {
         'label' => 'above',
         'module' => 'entityreference',
         'settings' => array(
-          'diff_custom' => 0,
-          'diff_custom_settings' => array(),
           'link' => FALSE,
         ),
         'type' => 'entityreference_label',
@@ -395,10 +390,7 @@ function crf_request_field_default_field_instances() {
       'default' => array(
         'label' => 'above',
         'module' => 'text',
-        'settings' => array(
-          'diff_custom' => 0,
-          'diff_custom_settings' => array(),
-        ),
+        'settings' => array(),
         'type' => 'text_default',
         'weight' => 2,
       ),
