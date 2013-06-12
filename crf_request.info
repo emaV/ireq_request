@@ -95,3 +95,4 @@ features[variable][] = node_submitted_report
 features[variable][] = node_submitted_request
 features[variable][] = pathauto_node_request_pattern
 features[views_view][] = eva_field_collection_request
+features[views_view][] = eva_report_workflow

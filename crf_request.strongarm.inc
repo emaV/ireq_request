@@ -203,6 +203,12 @@ function crf_request_strongarm() {
             'visible' => TRUE,
           ),
         ),
+        'eva_report_workflow_entity_view_1' => array(
+          'default' => array(
+            'weight' => '10',
+            'visible' => TRUE,
+          ),
+        ),
       ),
     ),
   );
