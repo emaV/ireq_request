@@ -13,7 +13,7 @@ function crf_request_default_rules_configuration() {
       "LABEL" : "Check Report References",
       "PLUGIN" : "rule",
       "TAGS" : [ "CFR" ],
-      "REQUIRES" : [ "rules" ],
+      "REQUIRES" : [ "rules", "workbench_moderation" ],
       "USES VARIABLES" : {
         "node_report" : { "label" : "Report Node", "type" : "node" },
         "field_collection_request" : { "label" : "Field Collection Request", "type" : "field_collection_item" },
@@ -33,6 +33,18 @@ function crf_request_default_rules_configuration() {
         { "data_set" : {
             "data" : [ "node-report:field-recipient" ],
             "value" : [ "user-recipient" ]
+          }
+        },
+        { "entity_save" : { "data" : [ "node-report" ], "immediate" : 1 } },
+        { "workbench_moderation_set_state" : {
+            "node" : [ "node-report" ],
+            "moderation_state" : "draft",
+            "force_transition" : 1
+          }
+        },
+        { "data_set" : {
+            "data" : [ "node-report:log" ],
+            "value" : "[field-collection-request:field-reporting-type] request by [field-collection-request:field-request-requested-by].\\r\\nWaiting input from [node-report:field-recipient]."
           }
         }
       ]
