@@ -79,11 +79,11 @@ function crf_request_form_alter(&$form, &$form_state, $form_id) {
         $form['actions']['moderate_' . $state] = array(
           '#type'  => 'submit',
           '#value' => t('Save & @state', array('@state' => $states_all[$state]->description)),
-          '#cfr_status_new' => $state,
+          '#crf_status_new' => $state,
           '#executes_submit_callback' => TRUE,
         );
         $form['actions']['moderate_' . $state]['#submit'] = $form['actions']['submit']['#submit'];
-        array_unshift($form['actions']['moderate_' . $state]['#submit'], 'cfr_request_node_form_submit');
+        array_unshift($form['actions']['moderate_' . $state]['#submit'], 'crf_request_node_form_submit');
       }
     }
   }
@@ -124,19 +124,21 @@ function crf_request_form_report_pre_render($form) {
 //  array_pop($form['actions']['submit']['#submit']);
 
 //dpm($node_view, 'crf_request_form_report_pre_render > $node_view');
-dpm($form, 'crf_request_form_report_pre_render > form');
-dpm($form['revision_information'], 'crf_request_form_report_pre_render > form["revision_information"]');
+//dpm($form, 'crf_request_form_report_pre_render > form');
+//dpm($form['revision_information'], 'crf_request_form_report_pre_render > form["revision_information"]');
   return $form;
 }
 
 /**
  * CFR Report node form submit callback.
  */
-function cfr_request_node_form_submit($form, &$form_state) {
+function crf_request_node_form_submit($form, &$form_state) {
+
   if (isset($form_state['clicked_button']['#crf_status_new'])) {
     $form_state['values']['workbench_moderation_state_new'] = $form_state['clicked_button']['#crf_status_new'];
   }
-dpm($form_state, 'cfr_request_node_form_submit > $form_state');
+//dpm($form_state['clicked_button']['#cfr_status_new'], '$form_state[clicked_button');
+//dpm($form_state, 'crf_request_node_form_submit > $form_state');
 }
 
 /**
