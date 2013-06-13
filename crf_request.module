@@ -69,6 +69,24 @@ function crf_request_form_alter(&$form, &$form_state, $form_id) {
 
     $form['#pre_render'][] = 'crf_request_form_report_pre_render';
     unset($form['revision_information']['#group']);
+  // Get all the states *this* user can access. If states is false, this user
+  // can not change the moderation state
+  $moderation_state = $form['#node']->workbench_moderation['current']->state;
+  $states_all = workbench_moderation_states();
+  if ($states = workbench_moderation_states_next($moderation_state, $user, $form['#node'])) {
+    foreach($states as $state => $state_label) {
+      if ($state <> $moderation_state) {
+        $form['actions']['moderate_' . $state] = array(
+          '#type'  => 'submit',
+          '#value' => t('Save & @state', array('@state' => $states_all[$state]->description)),
+          '#cfr_status_new' => $state,
+          '#executes_submit_callback' => TRUE,
+        );
+        $form['actions']['moderate_' . $state]['#submit'] = $form['actions']['submit']['#submit'];
+        array_unshift($form['actions']['moderate_' . $state]['#submit'], 'cfr_request_node_form_submit');
+      }
+    }
+  }
 //dpm(array('form' => $form, 'form_state' => $form_state), "crf_request_form_alter > $form_id");
 
   }
@@ -102,16 +120,23 @@ function crf_request_form_report_pre_render($form) {
   $form['revision_information']['log_view'] = $node_view['eva_report_workflow_entity_view_1'];
   $form['revision_information']['log_view']['#weight'] = $form['revision_information']['log']['#weight'] + 1;
 
-  $form['actions']['moderate'] = array(
-    '#type'  => 'submit',
-    '#value' => 'Save & Submit to OCHA',
-    '#weight' => 99,
-  );
+//  array_unshift($form['actions']['submit']['#submit'], 'cfr_request_node_form_submit');
+//  array_pop($form['actions']['submit']['#submit']);
 
 //dpm($node_view, 'crf_request_form_report_pre_render > $node_view');
-//dpm($form, 'crf_request_form_report_pre_render > form');
-//dpm($form['revision_information'], 'crf_request_form_report_pre_render > form["revision_information"]');
+dpm($form, 'crf_request_form_report_pre_render > form');
+dpm($form['revision_information'], 'crf_request_form_report_pre_render > form["revision_information"]');
   return $form;
+}
+
+/**
+ * CFR Report node form submit callback.
+ */
+function cfr_request_node_form_submit($form, &$form_state) {
+  if (isset($form_state['clicked_button']['#crf_status_new'])) {
+    $form_state['values']['workbench_moderation_state_new'] = $form_state['clicked_button']['#crf_status_new'];
+  }
+dpm($form_state, 'cfr_request_node_form_submit > $form_state');
 }
 
 /**
