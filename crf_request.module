@@ -94,8 +94,20 @@ function crf_request_form_report_pre_render($form) {
 //  hide($form['comment_settings']);
 //  hide($form['path']);
 
+  // set moderation workflow
+  $moderation_state = $form['#node']->workbench_moderation['current']->state;
+  $moderation_label = workbench_moderation_state_label($moderation_state);
+  $form['revision_information']['#title'] .= ' - ' . t('Current state: @state', array('@state' => $moderation_label));
+  hide($form['revision_information']['workbench_moderation_state_new']);
   $form['revision_information']['log_view'] = $node_view['eva_report_workflow_entity_view_1'];
   $form['revision_information']['log_view']['#weight'] = $form['revision_information']['log']['#weight'] + 1;
+
+  $form['actions']['moderate'] = array(
+    '#type'  => 'submit',
+    '#value' => 'Save & Submit to OCHA',
+    '#weight' => 99,
+  );
+
 //dpm($node_view, 'crf_request_form_report_pre_render > $node_view');
 //dpm($form, 'crf_request_form_report_pre_render > form');
 //dpm($form['revision_information'], 'crf_request_form_report_pre_render > form["revision_information"]');
