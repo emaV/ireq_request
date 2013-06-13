@@ -82,7 +82,7 @@ function crf_request_default_rules_configuration() {
       "LABEL" : "Create Report from Report term",
       "PLUGIN" : "rule",
       "TAGS" : [ "CRF" ],
-      "REQUIRES" : [ "rules", "php" ],
+      "REQUIRES" : [ "rules" ],
       "USES VARIABLES" : {
         "report_type_term" : { "label" : "Report Type Term", "type" : "taxonomy_term" },
         "field_collection_request" : { "label" : "Field Collection Request", "type" : "field_collection_item" },
@@ -93,7 +93,6 @@ function crf_request_default_rules_configuration() {
         { "entity_has_field" : { "entity" : [ "report-type-term" ], "field" : "field_content_type" } }
       ],
       "DO" : [
-        { "drupal_message" : { "message" : "Create Report from Report term:\\u003Cbr\\/\\u003E\\r\\n#[report-type-term:tid]#\\tTerm ID\\tThe unique ID of the taxonomy term.\\r\\n#[report-type-term:field_content_type]#\\tContent type\\tList (text) field.\\r\\n\\r\\n\\u003C?php\\r\\ndpm($report_type_term, \\u0027Create Report from Report term \\u003E $report_type_term\\u0027);\\r\\n?\\u003E" } },
         { "data_convert" : {
             "USING" : { "type" : "token", "value" : [ "report-type-term:field-content-type" ] },
             "PROVIDE" : { "conversion_result" : { "token_node_type" : "Token node type" } }
@@ -125,7 +124,7 @@ function crf_request_default_rules_configuration() {
       "LABEL" : "Create Report from Request item",
       "PLUGIN" : "rule",
       "TAGS" : [ "CFR" ],
-      "REQUIRES" : [ "rules", "php" ],
+      "REQUIRES" : [ "rules" ],
       "USES VARIABLES" : {
         "field_collection_request" : { "label" : "Field Collection Request", "type" : "field_collection_item" },
         "user_recipient" : { "label" : "Recipient", "type" : "user" }
@@ -138,7 +137,6 @@ function crf_request_default_rules_configuration() {
         }
       ],
       "DO" : [
-        { "drupal_message" : { "message" : "\\u003C?php\\r\\ndpm($field_collection_request, \\u0027Create Report from Request item \\u003E $field_collection_request\\u0027);\\r\\n?\\u003E" } },
         { "component_rules_create_report_from_report_term" : {
             "USING" : {
               "report_type_term" : [ "field-collection-request:field-reporting-type" ],
@@ -147,9 +145,7 @@ function crf_request_default_rules_configuration() {
             },
             "PROVIDE" : { "node_report" : { "node_report" : "Report Node" } }
           }
-        },
-        { "drupal_message" : { "message" : "\\u003C?php\\r\\ndpm($node_report, \\u0022Create Report from Request item \\u003E node_report\\u0022);\\r\\ndpm($field_collection_request, \\u0022Create Report from Request item \\u003E field_collection_request\\u0022);\\r\\n?\\u003E\\r\\n\\r\\n" } },
-        { "drupal_message" : { "message" : "Done:\\r\\n\\u003C?php\\r\\ndpm($node_report, \\u0027done: $node_report\\u0027);\\r\\n\\/\\/dpm($node_report_final, \\u0027done: $node_report_final\\u0027);\\r\\n?\\u003E" } }
+        }
       ]
     }
   }');
