@@ -58,6 +58,7 @@ features[rules_config][] = rules_check_report_references
 features[rules_config][] = rules_content_published
 features[rules_config][] = rules_create_report_from_report_term
 features[rules_config][] = rules_create_report_from_request_item
+features[rules_config][] = rules_crf_workflow_report
 features[rules_config][] = rules_email_recipients_on_request_submission
 features[rules_config][] = rules_workflow_content_type_submitted_to_ocha
 features[taxonomy][] = reporting_types

@@ -53,23 +53,24 @@ function crf_request_default_rules_configuration() {
   $items['rules_content_published'] = entity_import('rules_config', '{ "rules_content_published" : {
       "LABEL" : "Workflow content type published",
       "PLUGIN" : "reaction rule",
-      "ACTIVE" : false,
       "REQUIRES" : [ "workbench_moderation", "rules" ],
       "ON" : [ "workbench_moderation_after_moderation_transition" ],
       "IF" : [
         { "contents_current_state" : { "node" : [ "node" ], "moderation_state" : "published" } },
-        { "entity_has_field" : { "entity" : [ "node" ], "field" : "field_request" } },
+        { "entity_has_field" : { "entity" : [ "node" ], "field" : "field_collection_request_ref" } },
         { "entity_has_field" : {
-            "entity" : [ "node:field-request" ],
-            "field" : "field_request_recipients"
+            "entity" : [ "node:field-collection-request-ref:host-entity" ],
+            "field" : "field_request_requested_by"
           }
         }
       ],
       "DO" : [
         { "mail" : {
-            "to" : [ "node:field-request:field-request-recipients:0:mail" ],
-            "subject" : "[node:content-type] provided for [node:field-request:title] is now published",
-            "message" : "Dear [node:field-request:field-request-recipients:0:field-first-name] [node:field-request:field-request-recipients:0:field-last-name],\\r\\n\\r\\nKindly note that the [node:content-type] for the Information Request [node:field-request:title] has been published.\\r\\n\\r\\n[node:log]\\r\\n\\r\\nThe information can be viewed online: [node:url]\\r\\n\\r\\nNo action is required on your part at this time.\\r\\n\\r\\nKind regards,\\r\\nOCHA",
+            "to" : [
+              "node:field-collection-request-ref:host-entity:field-request-requested-by:field-first-name"
+            ],
+            "subject" : "[node:content-type] provided is now published",
+            "message" : "Dear [node:field-collection-request-ref:host-entity:field-request-requested-by:field-first-name] [node:field-collection-request-ref:host-entity:field-request-requested-by:field-last-name],\\r\\n\\r\\nKindly note that the [node:content-type] for the Information Request has been published.\\r\\n\\r\\n[node:log]\\r\\n\\r\\nThe information can be viewed online: [node:url]\\r\\n\\r\\nNo action is required on your part at this time.\\r\\n\\r\\nKind regards,\\r\\nOCHA",
             "from" : [ "site:mail" ],
             "language" : [ "" ]
           }
@@ -147,6 +148,18 @@ function crf_request_default_rules_configuration() {
           }
         }
       ]
+    }
+  }');
+  $items['rules_crf_workflow_report'] = entity_import('rules_config', '{ "rules_crf_workflow_report" : {
+      "LABEL" : "CRF Workflow Report",
+      "PLUGIN" : "reaction rule",
+      "TAGS" : [ "CRF" ],
+      "REQUIRES" : [ "workbench_moderation" ],
+      "ON" : [ "workbench_moderation_after_moderation_transition" ],
+      "IF" : [
+        { "contents_current_state" : { "node" : [ "node" ], "moderation_state" : "needs_review" } }
+      ],
+      "DO" : []
     }
   }');
   $items['rules_email_recipients_on_request_submission'] = entity_import('rules_config', '{ "rules_email_recipients_on_request_submission" : {
