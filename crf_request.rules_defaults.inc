@@ -54,7 +54,7 @@ function crf_request_default_rules_configuration() {
       "LABEL" : "Workflow content type published",
       "PLUGIN" : "reaction rule",
       "REQUIRES" : [ "workbench_moderation", "rules" ],
-      "ON" : [ "workbench_moderation_after_moderation_transition" ],
+      "ON" : [ "node_update" ],
       "IF" : [
         { "contents_current_state" : { "node" : [ "node" ], "moderation_state" : "published" } },
         { "entity_has_field" : { "entity" : [ "node" ], "field" : "field_collection_request_ref" } },
@@ -154,12 +154,20 @@ function crf_request_default_rules_configuration() {
       "LABEL" : "CRF Workflow Report",
       "PLUGIN" : "reaction rule",
       "TAGS" : [ "CRF" ],
-      "REQUIRES" : [ "workbench_moderation" ],
-      "ON" : [ "workbench_moderation_after_moderation_transition" ],
+      "REQUIRES" : [ "rules", "workbench_moderation" ],
+      "ON" : [ "node_update" ],
       "IF" : [
+        { "node_is_of_type" : { "node" : [ "node" ], "type" : { "value" : { "report" : "report" } } } },
         { "contents_current_state" : { "node" : [ "node" ], "moderation_state" : "needs_review" } }
       ],
-      "DO" : []
+      "DO" : [
+        { "workbench_moderation_set_state" : {
+            "node" : [ "node" ],
+            "moderation_state" : "published",
+            "force_transition" : 0
+          }
+        }
+      ]
     }
   }');
   $items['rules_email_recipients_on_request_submission'] = entity_import('rules_config', '{ "rules_email_recipients_on_request_submission" : {
