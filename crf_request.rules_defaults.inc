@@ -150,8 +150,8 @@ function crf_request_default_rules_configuration() {
       ]
     }
   }');
-  $items['rules_crf_workflow_report'] = entity_import('rules_config', '{ "rules_crf_workflow_report" : {
-      "LABEL" : "CRF Workflow Report",
+  $items['rules_crf_workflow_simple'] = entity_import('rules_config', '{ "rules_crf_workflow_simple" : {
+      "LABEL" : "CRF Workflow simple",
       "PLUGIN" : "reaction rule",
       "TAGS" : [ "CRF" ],
       "REQUIRES" : [ "rules", "workbench_moderation" ],
