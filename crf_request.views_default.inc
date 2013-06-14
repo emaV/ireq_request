@@ -383,11 +383,11 @@ function crf_request_views_default_views() {
   $handler->display->display_options['fields']['stamp']['table'] = 'workbench_moderation_node_history';
   $handler->display->display_options['fields']['stamp']['field'] = 'stamp';
   $handler->display->display_options['fields']['stamp']['date_format'] = 'long';
-  /* Sort criterion: Content revision: Updated date */
-  $handler->display->display_options['sorts']['timestamp']['id'] = 'timestamp';
-  $handler->display->display_options['sorts']['timestamp']['table'] = 'node_revision';
-  $handler->display->display_options['sorts']['timestamp']['field'] = 'timestamp';
-  $handler->display->display_options['sorts']['timestamp']['order'] = 'DESC';
+  /* Sort criterion: Workbench Moderation: Moderation state order */
+  $handler->display->display_options['sorts']['weight']['id'] = 'weight';
+  $handler->display->display_options['sorts']['weight']['table'] = 'workbench_moderation_states';
+  $handler->display->display_options['sorts']['weight']['field'] = 'weight';
+  $handler->display->display_options['sorts']['weight']['order'] = 'DESC';
   /* Contextual filter: Content: Nid */
   $handler->display->display_options['arguments']['nid']['id'] = 'nid';
   $handler->display->display_options['arguments']['nid']['table'] = 'node';
