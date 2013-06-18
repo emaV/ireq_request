@@ -53,6 +53,7 @@ function crf_request_default_rules_configuration() {
   $items['rules_content_published'] = entity_import('rules_config', '{ "rules_content_published" : {
       "LABEL" : "Workflow content type published",
       "PLUGIN" : "reaction rule",
+      "TAGS" : [ "CRF" ],
       "REQUIRES" : [ "workbench_moderation", "rules" ],
       "ON" : [ "node_update" ],
       "IF" : [
