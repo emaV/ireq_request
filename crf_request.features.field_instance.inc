@@ -82,7 +82,6 @@ function crf_request_field_default_field_instances() {
       'type' => 'text_textarea',
       'weight' => 3,
     ),
-    'workbench_access_field' => 0,
   );
 
   // Exported field_instance: 'field_collection_item-field_collection_request-field_reporting_type'
@@ -132,7 +131,6 @@ function crf_request_field_default_field_instances() {
       'type' => 'options_select',
       'weight' => 0,
     ),
-    'workbench_access_field' => 0,
   );
 
   // Exported field_instance: 'field_collection_item-field_collection_request-field_request_recipients'
@@ -177,7 +175,6 @@ function crf_request_field_default_field_instances() {
       'type' => 'options_select',
       'weight' => 1,
     ),
-    'workbench_access_field' => 0,
   );
 
   // Exported field_instance: 'field_collection_item-field_collection_request-field_request_requested_by'
@@ -227,7 +224,6 @@ function crf_request_field_default_field_instances() {
       'type' => 'options_select',
       'weight' => 2,
     ),
-    'workbench_access_field' => 0,
   );
 
   // Exported field_instance: 'node-report-field_collection_request_ref'
@@ -273,7 +269,6 @@ function crf_request_field_default_field_instances() {
       'type' => 'options_select',
       'weight' => 3,
     ),
-    'workbench_access_field' => 0,
   );
 
   // Exported field_instance: 'node-report-field_file'
@@ -324,7 +319,6 @@ function crf_request_field_default_field_instances() {
       'type' => 'file_generic',
       'weight' => 8,
     ),
-    'workbench_access_field' => 0,
   );
 
   // Exported field_instance: 'node-report-field_recipient'
@@ -377,7 +371,6 @@ function crf_request_field_default_field_instances() {
       'type' => 'options_select',
       'weight' => 4,
     ),
-    'workbench_access_field' => 0,
   );
 
   // Exported field_instance: 'node-report-field_report_description'
@@ -455,7 +448,6 @@ function crf_request_field_default_field_instances() {
       'type' => 'text_textarea',
       'weight' => 7,
     ),
-    'workbench_access_field' => 0,
   );
 
   // Exported field_instance: 'node-request-field_collection_request'
@@ -514,7 +506,6 @@ function crf_request_field_default_field_instances() {
       'type' => 'field_collection_embed',
       'weight' => 7,
     ),
-    'workbench_access_field' => 0,
   );
 
   // Exported field_instance: 'node-request-field_emergencies'
@@ -553,7 +544,6 @@ function crf_request_field_default_field_instances() {
       'type' => 'options_select',
       'weight' => 6,
     ),
-    'workbench_access_field' => 0,
   );
 
   // Exported field_instance: 'node-request-field_request_audience'
@@ -598,7 +588,6 @@ function crf_request_field_default_field_instances() {
       'type' => 'options_onoff',
       'weight' => 5,
     ),
-    'workbench_access_field' => 0,
   );
 
   // Exported field_instance: 'node-request-field_request_deadline'
@@ -669,7 +658,6 @@ function crf_request_field_default_field_instances() {
       'type' => 'date_select',
       'weight' => 3,
     ),
-    'workbench_access_field' => 0,
   );
 
   // Exported field_instance: 'taxonomy_term-reporting_types-field_content_type'
@@ -711,7 +699,6 @@ function crf_request_field_default_field_instances() {
       'type' => 'options_select',
       'weight' => 1,
     ),
-    'workbench_access_field' => 0,
   );
 
   // Translatables

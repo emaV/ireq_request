@@ -192,9 +192,6 @@ function crf_request_strongarm() {
         'path' => array(
           'weight' => '2',
         ),
-        'workbench_access' => array(
-          'weight' => '1',
-        ),
       ),
       'display' => array(
         'eva_field_collection_request_entity_view_1' => array(
@@ -255,9 +252,6 @@ function crf_request_strongarm() {
         ),
         'path' => array(
           'weight' => '2',
-        ),
-        'workbench_access' => array(
-          'weight' => '0',
         ),
       ),
       'display' => array(),
