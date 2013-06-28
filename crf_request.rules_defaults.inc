@@ -86,7 +86,8 @@ function crf_request_default_rules_configuration() {
         "report_type_term" : { "label" : "Report Type Term", "type" : "taxonomy_term" },
         "field_collection_request" : { "label" : "Field Collection Request", "type" : "field_collection_item" },
         "user_recipient" : { "label" : "Recipient", "type" : "user" },
-        "node_report" : { "label" : "Report Node", "type" : "node", "parameter" : false }
+        "node_report" : { "label" : "Report Node", "type" : "node", "parameter" : false },
+        "report_number" : { "label" : "Report Number", "type" : "text"}
       },
       "IF" : [
         { "entity_has_field" : { "entity" : [ "report-type-term" ], "field" : "field_content_type" } }
@@ -101,7 +102,7 @@ function crf_request_default_rules_configuration() {
             "USING" : {
               "type" : "node",
               "param_type" : [ "token-node-type" ],
-              "param_title" : "[report-type-term:name] [field-collection-request:item-id]-[user-recipient:uid]",
+              "param_title" : "[report-type-term:name] [report-number:value]",
               "param_author" : [ "user-recipient" ]
             },
             "PROVIDE" : { "entity_created" : { "node_report_new" : "Node Report created" } }
@@ -126,7 +127,8 @@ function crf_request_default_rules_configuration() {
       "REQUIRES" : [ "rules" ],
       "USES VARIABLES" : {
         "field_collection_request" : { "label" : "Field Collection Request", "type" : "field_collection_item" },
-        "user_recipient" : { "label" : "Recipient", "type" : "user" }
+        "user_recipient" : { "label" : "Recipient", "type" : "user" },
+        "report_number" : { "label" : "Report Number", "type" : "text"}
       },
       "IF" : [
         { "entity_has_field" : {
@@ -140,7 +142,8 @@ function crf_request_default_rules_configuration() {
             "USING" : {
               "report_type_term" : [ "field-collection-request:field-reporting-type" ],
               "field_collection_request" : [ "field_collection_request" ],
-              "user_recipient" : [ "user_recipient" ]
+              "user_recipient" : [ "user_recipient" ],
+              "report_number" : [ "report_number" ]
             },
             "PROVIDE" : { "node_report" : { "node_report" : "Report Node" } }
           }
@@ -191,6 +194,11 @@ function crf_request_default_rules_configuration() {
         }
       ],
       "DO" : [
+        { "variable_add" : {
+            "USING" : { "type" : "integer", "value" : "1" },
+            "PROVIDE" : { "variable_added" : { "report_delta" : "Report delta" } }
+          }
+        },
         { "LOOP" : {
             "USING" : { "list" : [ "node:field-collection-request" ] },
             "ITEM" : { "request_item" : "Current request item" },
@@ -199,9 +207,15 @@ function crf_request_default_rules_configuration() {
                   "USING" : { "list" : [ "request-item:field-request-recipients" ] },
                   "ITEM" : { "request_item_recipient" : "Current request item recipient" },
                   "DO" : [
+                    { "variable_add" : {
+                        "USING" : { "type" : "text", "value" : "[node:nid]-[report-delta:value]" },
+                        "PROVIDE" : { "variable_added" : { "report_number" : "Report Number" } }
+                      }
+                    },
                     { "component_rules_create_report_from_request_item" : {
                         "field_collection_request" : [ "request-item" ],
-                        "user_recipient" : [ "request_item_recipient" ]
+                        "user_recipient" : [ "request_item_recipient" ],
+                        "report_number" : [ "report_number" ]
                       }
                     },
                     { "mail" : {
@@ -210,6 +224,11 @@ function crf_request_default_rules_configuration() {
                         "message" : "Dear [request-item-recipient:field-first-name] [request-item-recipient:field-last-name],\\r\\n\\r\\n[request-item:field-request-requested-by:field-first-name] [request-item:field-request-requested-by:field-last-name] is requesting that you provide [request-item:field-reporting-type:name] information.\\r\\n\\r\\n[request-item:field-append-to-alert-email]\\r\\n\\r\\nKindly provide your information online: [node:url]\\r\\n\\r\\nKind regards,\\r\\nOCHA",
                         "from" : [ "" ],
                         "language" : [ "" ]
+                      }
+                    },
+                    { "data_set" : {
+                        "data" : [ "report-delta" ],
+                        "value" : { "select" : "report-delta", "num_offset" : { "value" : "1" } }
                       }
                     }
                   ]
