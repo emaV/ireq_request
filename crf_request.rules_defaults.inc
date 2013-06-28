@@ -169,6 +169,16 @@ function crf_request_default_rules_configuration() {
   $items['rules_email_recipients_on_request_submission'] = entity_import('rules_config', '{ "rules_email_recipients_on_request_submission" : {
       "LABEL" : "Email recipients on request submission",
       "PLUGIN" : "reaction rule",
+      "ACTIVE" : false,
+      "TAGS" : [ "CRF" ],
+      "REQUIRES" : [ "rules" ],
+      "ON" : [ "node_insert" ],
+      "DO" : []
+    }
+  }');
+  $items['rules_request_submission'] = entity_import('rules_config', '{ "rules_request_submission" : {
+      "LABEL" : "Request submission (report creation and notification)",
+      "PLUGIN" : "reaction rule",
       "TAGS" : [ "CRF" ],
       "REQUIRES" : [ "rules" ],
       "ON" : [ "node_insert" ],
