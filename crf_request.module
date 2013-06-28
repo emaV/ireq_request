@@ -59,8 +59,10 @@ function _crf_request_create_request() {
 
 /**
  * Implements hook_form_alter().
- * Check for field_collection_request_ref field.
- * If it is there then the node is a "CRF report".
+ * CRF Reports
+ *   Check for field_collection_request_ref field.
+ *   If it is there then the node is a "CRF report".
+ *   Modify availabel buttons according workflow
  */
 function crf_request_form_alter(&$form, &$form_state, $form_id) {
 
@@ -143,6 +145,7 @@ function crf_request_node_form_submit($form, &$form_state) {
 
 /**
  * Implements hook_form_FORM_ID_alter().
+ * Add preview feature.
  */
 function crf_request_form_request_node_form_alter(&$form, &$form_state, $form_id) {
   $node = $form['#node'];
@@ -274,7 +277,7 @@ function crf_request_theme() {
 function _crf_request_get_email_request_submission() {
 
   // get rule to preview email
-  $rule_config = rules_config_load('rules_email_recipients_on_request_submission');
+  $rule_config = rules_config_load('rules_request_submission');
   $rule_components = json_decode($rule_config->export(), TRUE);
   $rule_mail = '';
   array_walk_recursive($rule_components, function ($item, $key) use (&$rule_mail) {
