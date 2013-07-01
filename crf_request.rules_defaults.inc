@@ -87,7 +87,7 @@ function crf_request_default_rules_configuration() {
         "field_collection_request" : { "label" : "Field Collection Request", "type" : "field_collection_item" },
         "user_recipient" : { "label" : "Recipient", "type" : "user" },
         "node_report" : { "label" : "Report Node", "type" : "node", "parameter" : false },
-        "report_number" : { "label" : "Report Number", "type" : "text"}
+        "report_number" : { "label" : "Report Number", "type" : "text" }
       },
       "IF" : [
         { "entity_has_field" : { "entity" : [ "report-type-term" ], "field" : "field_content_type" } }
@@ -128,7 +128,7 @@ function crf_request_default_rules_configuration() {
       "USES VARIABLES" : {
         "field_collection_request" : { "label" : "Field Collection Request", "type" : "field_collection_item" },
         "user_recipient" : { "label" : "Recipient", "type" : "user" },
-        "report_number" : { "label" : "Report Number", "type" : "text"}
+        "report_number" : { "label" : "Report Number", "type" : "text" }
       },
       "IF" : [
         { "entity_has_field" : {
@@ -167,6 +167,27 @@ function crf_request_default_rules_configuration() {
         { "workbench_moderation_set_state_during_save" : { "node" : [ "node" ], "moderation_state" : "published" } },
         { "entity_save" : { "data" : [ "node" ] } }
       ]
+    }
+  }');
+  $items['rules_email_notification_body'] = entity_import('rules_config', '{ "rules_email_notification_body" : {
+      "LABEL" : "Email notification body",
+      "PLUGIN" : "rule",
+      "TAGS" : [ "CRF" ],
+      "REQUIRES" : [ "rules" ],
+      "USES VARIABLES" : {
+        "request_item" : { "label" : "Field Collection Request", "type" : "field_collection_item" },
+        "report_url" : { "label" : "Report URL", "type" : "text" },
+        "notification_body" : { "label" : "Email Body", "type" : "text", "parameter" : false },
+        "request_item_recipient" : { "label" : "Recipient", "type" : "user" }
+      },
+      "DO" : [
+        { "data_set" : {
+            "data" : [ "notification-body" ],
+            "value" : "Dear [request-item-recipient:field-first-name] [request-item-recipient:field-last-name],\\r\\n\\r\\n[request-item:field-request-requested-by:field-first-name] [request-item:field-request-requested-by:field-last-name] is requesting that you provide [request-item:field-reporting-type:name] information.\\r\\n\\r\\n[request-item:field-append-to-alert-email]\\r\\n\\r\\nKindly provide your information online: [report-url:value]\\r\\n\\r\\nKind regards,\\r\\nOCHA"
+          }
+        }
+      ],
+      "PROVIDES VARIABLES" : [ "notification_body" ]
     }
   }');
   $items['rules_email_recipients_on_request_submission'] = entity_import('rules_config', '{ "rules_email_recipients_on_request_submission" : {
@@ -216,6 +237,15 @@ function crf_request_default_rules_configuration() {
                         "field_collection_request" : [ "request-item" ],
                         "user_recipient" : [ "request_item_recipient" ],
                         "report_number" : [ "report_number" ]
+                      }
+                    },
+                    { "component_rules_email_notification_body" : {
+                        "USING" : {
+                          "request_item" : [ "request-item" ],
+                          "report_url" : [ "node:url" ],
+                          "request_item_recipient" : [ "request-item-recipient" ]
+                        },
+                        "PROVIDE" : { "notification_body" : { "notification_body" : "Email Body" } }
                       }
                     },
                     { "mail" : {
