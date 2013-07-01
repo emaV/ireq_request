@@ -12,7 +12,7 @@ function crf_request_default_rules_configuration() {
   $items['rules_check_report_references'] = entity_import('rules_config', '{ "rules_check_report_references" : {
       "LABEL" : "Check Report References",
       "PLUGIN" : "rule",
-      "TAGS" : [ "CFR" ],
+      "TAGS" : [ "CRF" ],
       "REQUIRES" : [ "rules", "workbench_moderation" ],
       "USES VARIABLES" : {
         "node_report" : { "label" : "Report Node", "type" : "node" },
@@ -123,7 +123,7 @@ function crf_request_default_rules_configuration() {
   $items['rules_create_report_from_request_item'] = entity_import('rules_config', '{ "rules_create_report_from_request_item" : {
       "LABEL" : "Create Report from Request item",
       "PLUGIN" : "rule",
-      "TAGS" : [ "CFR" ],
+      "TAGS" : [ "CRF" ],
       "REQUIRES" : [ "rules" ],
       "USES VARIABLES" : {
         "field_collection_request" : { "label" : "Field Collection Request", "type" : "field_collection_item" },
