@@ -64,7 +64,6 @@ features[rules_config][] = rules_create_report_from_report_term
 features[rules_config][] = rules_create_report_from_request_item
 features[rules_config][] = rules_crf_workflow_simple
 features[rules_config][] = rules_email_notification_body
-features[rules_config][] = rules_email_recipients_on_request_submission
 features[rules_config][] = rules_request_submission
 features[taxonomy][] = reporting_types
 features[user_permission][] = create report content

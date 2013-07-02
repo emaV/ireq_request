@@ -53,12 +53,15 @@ taxonomy_term-reporting_types-field_content_type
 
 
 == Rules (crf_request.rules_defaults.inc)
+rules_request_submission - Request submission (report creation and notification)
+rules_content_published - Workflow content type published (notification on report finalization)
+rules_crf_workflow_simple - CRF Workflow simple (needs input > finalization).
 
-rules_content_published - Workflow content type published
-rules_email_recipients_on_request_submission - Email recipients on request submission
-rules_workflow_content_type_submitted_to_ocha - Workflow content type submitted to OCHA
-
-  @TODO check if still needed
+=== Components (used by main rules)
+rules_check_report_references - Update report adding backreferences
+rules_create_report_from_report_term - intermediate rule
+rules_create_report_from_request_item - intermediate rule
+rules_email_notification_body - set notification body
 
 
 == Taxonomy (crf_request.features.taxonomy.inc)

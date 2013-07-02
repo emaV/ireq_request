@@ -272,7 +272,8 @@ function crf_request_theme() {
 
 /**
  * Auxiliary function to get email message from
- * rules_email_recipients_on_request_submission
+ u rules_request_submission
+ * @TODO use rules_email_notification_body component 
  */
 function _crf_request_get_email_request_submission() {
 
