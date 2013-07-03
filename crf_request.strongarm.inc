@@ -70,7 +70,7 @@ function crf_request_strongarm() {
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
   $strongarm->name = 'comment_default_mode_report';
-  $strongarm->value = 1;
+  $strongarm->value = 0;
   $export['comment_default_mode_report'] = $strongarm;
 
   $strongarm = new stdClass();
@@ -98,7 +98,7 @@ function crf_request_strongarm() {
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
   $strongarm->name = 'comment_form_location_report';
-  $strongarm->value = 1;
+  $strongarm->value = 0;
   $export['comment_form_location_report'] = $strongarm;
 
   $strongarm = new stdClass();
@@ -140,7 +140,7 @@ function crf_request_strongarm() {
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
   $strongarm->name = 'comment_subject_field_report';
-  $strongarm->value = 1;
+  $strongarm->value = 0;
   $export['comment_subject_field_report'] = $strongarm;
 
   $strongarm = new stdClass();
@@ -277,9 +277,7 @@ function crf_request_strongarm() {
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
   $strongarm->name = 'menu_options_report';
-  $strongarm->value = array(
-    0 => 'main-menu',
-  );
+  $strongarm->value = array();
   $export['menu_options_report'] = $strongarm;
 
   $strongarm = new stdClass();
