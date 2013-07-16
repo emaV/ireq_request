@@ -103,7 +103,10 @@ function crf_request_form_alter(&$form, &$form_state, $form_id) {
     // can not change the moderation state
     $moderation_state = $form['#node']->workbench_moderation['current']->state;
     $states_all = workbench_moderation_states();
+//dpm($states_all, 'crf_request_form_alter > $states_all');
+//dpm(workbench_moderation_states_next($moderation_state, $user, $form['#node']), "crf_request_form_alter > workbench_moderation_states_next ($moderation_state)");
     if ($states = workbench_moderation_states_next($moderation_state, $user, $form['#node'])) {
+      $form['actions']['submit']['#value'] = t('Save draft');
       foreach($states as $state => $state_label) {
         if ($state <> $moderation_state) {
           $form['actions']['moderate_' . $state] = array(
