@@ -6,6 +6,7 @@ php = 5.2.4
 project = crf_request
 dependencies[] = chosen
 dependencies[] = context
+dependencies[] = crf_core
 dependencies[] = ctools
 dependencies[] = date
 dependencies[] = entity
