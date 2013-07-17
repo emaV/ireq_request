@@ -4,6 +4,7 @@ core = 7.x
 package = CRF
 php = 5.2.4
 project = crf_request
+dependencies[] = chosen
 dependencies[] = context
 dependencies[] = ctools
 dependencies[] = date
