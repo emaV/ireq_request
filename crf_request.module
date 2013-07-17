@@ -16,22 +16,23 @@ include_once 'crf_request.features.inc';
  */
 function crf_request_views_default_views_alter(&$views) {
   $content_types = crf_core_report_types(TRUE);
-  $bundles = array_keys($content_types);
+  if ($content_types) {
+    $bundles = array_keys($content_types);
 
-  // view: eva_field_collection_request
-  // display_id: entity_view_1
-  if (isset($views['eva_field_collection_request'])) {
-    $views['eva_field_collection_request']->display['entity_view_1']->display_options['bundles'] = $bundles;
-//dpm($views['eva_field_collection_request']->display['entity_view_1']->display_options['bundles'], 'eva_field_collection_request > bundles');
+    // view: eva_field_collection_request
+    // display_id: entity_view_1
+    if (isset($views['eva_field_collection_request'])) {
+      $views['eva_field_collection_request']->display['entity_view_1']->display_options['bundles'] = $bundles;
+  //dpm($views['eva_field_collection_request']->display['entity_view_1']->display_options['bundles'], 'eva_field_collection_request > bundles');
+    }
+
+    // view: eva_report_workflow
+    // display_id: entity_view_1
+    if (isset($views['eva_report_workflow'])) {
+      $views['eva_report_workflow']->display['entity_view_1']->display_options['bundles'] = $bundles;
+  //dpm($views['eva_report_workflow']->display['entity_view_1']->display_options['bundles'], 'eva_report_workflow > bundles');
+    }
   }
-
-  // view: eva_report_workflow
-  // display_id: entity_view_1
-  if (isset($views['eva_report_workflow'])) {
-    $views['eva_report_workflow']->display['entity_view_1']->display_options['bundles'] = $bundles;
-//dpm($views['eva_report_workflow']->display['entity_view_1']->display_options['bundles'], 'eva_report_workflow > bundles');
-  }
-
 }
 
 /**
