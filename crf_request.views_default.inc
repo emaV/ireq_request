@@ -317,7 +317,7 @@ function crf_request_views_default_views() {
   $view = new view();
   $view->name = 'eva_report_workflow';
   $view->description = '';
-  $view->tag = 'default';
+  $view->tag = 'CRF';
   $view->base_table = 'node_revision';
   $view->human_name = 'EVA_report_workflow';
   $view->core = 7;
