@@ -183,7 +183,7 @@ function crf_request_default_rules_configuration() {
       "DO" : [
         { "data_set" : {
             "data" : [ "notification-body" ],
-            "value" : "Dear [request-item-recipient:field-first-name] [request-item-recipient:field-last-name],\\r\\n\\r\\n[request-item:field-request-requested-by:field-first-name] [request-item:field-request-requested-by:field-last-name] is requesting that you provide [request-item:field-reporting-type:name] information.\\r\\n\\r\\n[request-item:field-append-to-alert-email]\\r\\n\\r\\nKindly provide your information online: [report-url:value]\\r\\n\\r\\nKind regards,\\r\\nOCHA"
+            "value" : "Dear [request-item-recipient:name],\r\n\r\n[request-item:field-request-requested-by:name] is requesting that you provide [request-item:field-reporting-type:name] information.\r\n\r\n[request-item:field-append-to-alert-email]\r\n\r\nKindly provide your information online: [report-url:value]\r\n\r\nKind regards,\r\nOCHA"
           }
         }
       ],
