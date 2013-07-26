@@ -304,26 +304,6 @@ function crf_request_theme() {
 }
 
 /**
- * Auxiliary function to get email message from
- u rules_request_submission
- * @TODO use rules_email_notification_body component 
- */
-function _crf_request_get_email_request_submission() {
-
-  // get rule to preview email
-  $rule_config = rules_config_load('rules_request_submission');
-  $rule_components = json_decode($rule_config->export(), TRUE);
-  $rule_mail = '';
-  array_walk_recursive($rule_components, function ($item, $key) use (&$rule_mail) {
-    if (!is_null($key) && ($key==='message')) {
-      $rule_mail = $item;
-    }
-  });
-
-  return $rule_mail;
-}
-
-/**
  * Theme field_collection request for preview
  * @TODO cleanup mail template
  */
@@ -335,27 +315,31 @@ function theme_field_collection_request_preview($element) {
 
   for ($delta=0; $delta<=$element['#max_delta']; $delta++) {
 
+    // craft field_collection_item
+    $entity_type = 'field_collection_item';
+    $request_item = entity_create($entity_type, array());
+    $request_item->field_name = 'field_collection_request';
+    $request_item->field_reporting_type = $element[$delta]['field_reporting_type'];
+    $request_item->field_request_recipients = $element[$delta]['field_request_recipients'];
+    $request_item->field_request_requested_by = $element[$delta]['field_request_requested_by'];
+
     // get report type
     $reporting_type_tid = $element[$delta]['field_reporting_type']['und'][0]['target_id'];
     if ($reporting_type_tid) {
       $reporting_type_term = taxonomy_term_load($reporting_type_tid);
       $reporting_type = $reporting_type_term->name;
     }
-    else {
-      $reporting_type = 'n/a';
-    }
+
     // get requested by
     $requested_by_uid = $element[$delta]['field_request_requested_by']['und'][0]['target_id'];
     if ($requested_by_uid) {
       $requested_by = user_load($requested_by_uid);
       $requested_by_wrapper = entity_metadata_wrapper('user', $requested_by);
-      $requested_by_first_name = $requested_by_wrapper->field_first_name->value();
-      $requested_by_last_name = $requested_by_wrapper->field_last_name->value();
+      $requested_by_name = $requested_by_wrapper->name->value();
     }
-    else {
-      $requested_by_first_name = 'n/a';
-      $requested_by_last_name = 'n/a';
-    }
+
+    // set (fake) request url
+    $request_url = $base_url . '/report/TBD';
 
     // get recipient
     foreach ($element[$delta]['field_request_recipients']['und'] as $recipient) {
@@ -363,31 +347,16 @@ function theme_field_collection_request_preview($element) {
       if ($recipient_uid) {
         $recipient = user_load($recipient_uid);
         $recipient_wrapper = entity_metadata_wrapper('user', $recipient);
-        $recipient_first_name = $recipient_wrapper->field_first_name->value();
-        $recipient_last_name = $recipient_wrapper->field_last_name->value();
-      }
-      else {
-        $recipient_first_name = 'n/a';
-        $recipient_last_name = 'n/a';
+        $recipient_name = $recipient_wrapper->name->value();
       }
 
-      // get recipient email body
-      $append_to_alert = $element[$delta]['field_append_to_alert_email']['und'][0]['value'];
-      $recipient_mail_template = _crf_request_get_email_request_submission();
-      $replacements = array(
-        '[request-item-recipient:field-first-name]' => $recipient_first_name,
-        '[request-item-recipient:field-last-name]'  => $recipient_last_name,
-        '[request-item:field-request-requested-by:field-first-name]' => $requested_by_first_name,
-        '[request-item:field-request-requested-by:field-last-name]'  => $requested_by_last_name,
-        '[request-item:field-reporting-type:name]' => $reporting_type,
-        '[request-item:field-append-to-alert-email]' => $append_to_alert,
-        '[node:url]' => $base_url,
-      );
-      $recipient_mail = strtr($recipient_mail_template, $replacements);
+      // use rule to get norification body
+      $out = rules_invoke_component('rules_email_notification_body', $request_item, $request_url,  $recipient);
+      $request_notification_body = array_shift($out);
 
-      $rows[] = array('data' => array($reporting_type, "$recipient_first_name $recipient_last_name", "$requested_by_first_name $requested_by_last_name", '<span class="link-preview">preview</span>'));
+      $rows[] = array('data' => array($reporting_type, "$recipient_name", "$requested_by_name", '<span class="link-preview">preview</span>'));
       $rows[] = array(
-        'data' => array(array('data' => '<pre style="font-family:Courier, monospace">' . $recipient_mail . '</pre>', 'colspan' => 4)),
+        'data' => array(array('data' => '<pre style="font-family:Courier, monospace">' . $request_notification_body. '</pre>', 'colspan' => 4)),
         'class' => array('mail-preview'),
         'no_striping' => TRUE
       );

@@ -241,7 +241,7 @@ function crf_request_default_rules_configuration() {
                     { "mail" : {
                         "to" : "[request-item-recipient:mail]",
                         "subject" : "New [request-item:field-reporting-type] request.",
-                        "message" : "Dear [request-item-recipient:field-first-name] [request-item-recipient:field-last-name],\\r\\n\\r\\n[request-item:field-request-requested-by:field-first-name] [request-item:field-request-requested-by:field-last-name] is requesting that you provide [request-item:field-reporting-type:name] information.\\r\\n\\r\\n[request-item:field-append-to-alert-email]\\r\\n\\r\\nKindly provide your information online: [node:url]\\r\\n\\r\\nKind regards,\\r\\nOCHA",
+                        "message" : "[notification-body:value]",
                         "from" : [ "" ],
                         "language" : [ "" ]
                       }
