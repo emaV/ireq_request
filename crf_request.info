@@ -118,3 +118,4 @@ features[variable][] = pathauto_node_request_pattern
 features[views_view][] = eva_field_collection_request
 features[views_view][] = eva_report_workflow
 features_exclude[field][taxonomy_term-reporting_types-field_content_type] = taxonomy_term-reporting_types-field_content_type
+
