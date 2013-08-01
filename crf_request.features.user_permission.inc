@@ -89,6 +89,36 @@ function crf_request_user_default_permissions() {
     'module' => 'node',
   );
 
+  // Exported permission: moderate report state from draft to needs_review.
+  $permissions['moderate report state from draft to needs_review'] = array(
+    'name' => 'moderate report state from draft to needs_review',
+    'roles' => array(
+      'CRF_user' => 'CRF_user',
+    ),
+    'module' => 'workbench_moderation',
+  );
+
+  // Exported permission: moderate report state from draft to published.
+  $permissions['moderate report state from draft to published'] = array(
+    'name' => 'moderate report state from draft to published',
+    'roles' => array(),
+    'module' => 'workbench_moderation',
+  );
+
+  // Exported permission: moderate report state from needs_review to draft.
+  $permissions['moderate report state from needs_review to draft'] = array(
+    'name' => 'moderate report state from needs_review to draft',
+    'roles' => array(),
+    'module' => 'workbench_moderation',
+  );
+
+  // Exported permission: moderate report state from needs_review to published.
+  $permissions['moderate report state from needs_review to published'] = array(
+    'name' => 'moderate report state from needs_review to published',
+    'roles' => array(),
+    'module' => 'workbench_moderation',
+  );
+
   // Exported permission: view any unpublished report content.
   $permissions['view any unpublished report content'] = array(
     'name' => 'view any unpublished report content',
