@@ -92,16 +92,16 @@ function crf_request_user_default_permissions() {
   // Exported permission: moderate report state from draft to needs_review.
   $permissions['moderate report state from draft to needs_review'] = array(
     'name' => 'moderate report state from draft to needs_review',
-    'roles' => array(
-      'CRF_user' => 'CRF_user',
-    ),
+    'roles' => array(),
     'module' => 'workbench_moderation',
   );
 
   // Exported permission: moderate report state from draft to published.
   $permissions['moderate report state from draft to published'] = array(
     'name' => 'moderate report state from draft to published',
-    'roles' => array(),
+    'roles' => array(
+      'CRF_user' => 'CRF_user',
+    ),
     'module' => 'workbench_moderation',
   );
 
