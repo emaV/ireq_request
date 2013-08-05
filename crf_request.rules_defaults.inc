@@ -69,7 +69,7 @@ function crf_request_default_rules_configuration() {
         { "mail" : {
             "to" : [ "node:field-collection-request-ref:field-request-requested-by:mail" ],
             "subject" : "[node:content-type] provided is now published",
-            "message" : "Dear [node:field-collection-request-ref:field-request-requested-by:field-first-name] [node:field-collection-request-ref:field-request-requested-by:field-last-name],\\r\\n\\r\\nKindly note that the [node:content-type] for the Information Request has been published.\\r\\n\\r\\n[node:log]\\r\\n\\r\\nThe information can be viewed online: [node:url]\\r\\n\\r\\nNo action is required on your part at this time.\\r\\n\\r\\nKind regards,\\r\\nOCHA",
+            "message" : "Dear [node:field-collection-request-ref:field-request-requested-by:name],\\r\\n\\r\\nKindly note that the [node:content-type] for the Information Request has been published.\\r\\n\\r\\n[node:log]\\r\\n\\r\\nThe information can be viewed online: [node:url]\\r\\n\\r\\nNo action is required on your part at this time.\\r\\n\\r\\nKind regards,\\r\\nOCHA",
             "from" : [ "site:mail" ],
             "language" : [ "" ]
           }
