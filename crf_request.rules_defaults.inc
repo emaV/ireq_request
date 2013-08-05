@@ -77,6 +77,33 @@ function crf_request_default_rules_configuration() {
       ]
     }
   }');
+  $items['rules_content_reviewed'] = entity_import('rules_config', '{ "rules_content_reviewed" : {
+      "LABEL" : "Workflow content type sent to review",
+      "PLUGIN" : "reaction rule",
+      "TAGS" : [ "CRF" ],
+      "REQUIRES" : [ "workbench_moderation", "rules" ],
+      "ON" : [ "node_update" ],
+      "IF" : [
+        { "contents_current_state" : { "node" : [ "node" ], "moderation_state" : "needs_review" } },
+        { "entity_has_field" : { "entity" : [ "node" ], "field" : "field_collection_request_ref" } },
+        { "entity_has_field" : {
+            "entity" : [ "node:field-collection-request-ref" ],
+            "field" : "field_request_requested_by"
+          }
+        }
+      ],
+      "DO" : [
+        { "mail" : {
+            "to" : [ "node:field-collection-request-ref:field-request-requested-by:mail" ],
+            "subject" : "[node:content-type] provided is now reviewed",
+            "message" : "Dear [node:field-collection-request-ref:field-request-requested-by:name],\\r\\n\\r\\nKindly note that the [node:content-type] for the Information Request has been submitted.\\r\\n\\r\\n[node:log]\\r\\n\\r\\nThe information can be viewed online: [node:url]\\r\\n\\r\\nPlease review.\\r\\n\\r\\nKind regards,\\r\\nOCHA",
+            "from" : [ "site:mail" ],
+            "language" : [ "" ]
+          }
+        }
+      ]
+    }
+  }');
   $items['rules_create_report_from_report_term'] = entity_import('rules_config', '{ "rules_create_report_from_report_term" : {
       "LABEL" : "Create Report from Report term",
       "PLUGIN" : "rule",

@@ -62,6 +62,7 @@ features[node][] = report
 features[node][] = request
 features[rules_config][] = rules_check_report_references
 features[rules_config][] = rules_content_published
+features[rules_config][] = rules_content_reviewed
 features[rules_config][] = rules_create_report_from_report_term
 features[rules_config][] = rules_create_report_from_request_item
 features[rules_config][] = rules_crf_workflow_simple
