@@ -50,6 +50,34 @@ function crf_request_default_rules_configuration() {
       ]
     }
   }');
+  $items['rules_content_denied'] = entity_import('rules_config', '{ "rules_content_denied" : {
+      "LABEL" : "Workflow content type denied from review",
+      "PLUGIN" : "reaction rule",
+      "TAGS" : [ "CRF" ],
+      "REQUIRES" : [ "workbench_moderation", "rules" ],
+      "ON" : [ "node_update" ],
+      "IF" : [
+        { "contents_previous_state" : { "node" : [ "node" ], "moderation_state" : "needs_review" } },
+        { "contents_current_state" : { "node" : [ "node" ], "moderation_state" : "draft" } },
+        { "entity_has_field" : { "entity" : [ "node" ], "field" : "field_collection_request_ref" } },
+        { "entity_has_field" : {
+            "entity" : [ "node:field-collection-request-ref" ],
+            "field" : "field_request_requested_by"
+          }
+        }
+      ],
+      "DO" : [
+        { "mail" : {
+            "to" : [ "node:field-collection-request-ref:field-request-requested-by:mail" ],
+            "subject" : "[node:content-type] provided is now reviewed",
+            "message" : "Dear [node:field-collection-request-ref:field-request-requested-by:name],\\r\\n\\r\\nKindly note that the [node:content-type] for the Information Request has been resubmitted to you for review.\\r\\n\\r\\n[node:log]\\r\\n\\r\\nThe information can be viewed online: [node:url]\\r\\n\\r\\nPlease review.\\r\\n\\r\\nKind regards,\\r\\nOCHA",
+            "from" : [ "site:mail" ],
+            "language" : [ "" ]
+          }
+        }
+      ]
+    }
+  }');
   $items['rules_content_published'] = entity_import('rules_config', '{ "rules_content_published" : {
       "LABEL" : "Workflow content type published",
       "PLUGIN" : "reaction rule",
@@ -84,6 +112,7 @@ function crf_request_default_rules_configuration() {
       "REQUIRES" : [ "workbench_moderation", "rules" ],
       "ON" : [ "node_update" ],
       "IF" : [
+        { "contents_previous_state" : { "node" : [ "node" ], "moderation_state" : "draft" } },
         { "contents_current_state" : { "node" : [ "node" ], "moderation_state" : "needs_review" } },
         { "entity_has_field" : { "entity" : [ "node" ], "field" : "field_collection_request_ref" } },
         { "entity_has_field" : {

@@ -61,6 +61,7 @@ features[field_instance][] = taxonomy_term-reporting_types-field_content_type
 features[node][] = report
 features[node][] = request
 features[rules_config][] = rules_check_report_references
+features[rules_config][] = rules_content_denied
 features[rules_config][] = rules_content_published
 features[rules_config][] = rules_content_reviewed
 features[rules_config][] = rules_create_report_from_report_term
