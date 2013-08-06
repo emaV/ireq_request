@@ -50,8 +50,8 @@ function crf_request_default_rules_configuration() {
       ]
     }
   }');
-  $items['rules_content_denied'] = entity_import('rules_config', '{ "rules_content_denied" : {
-      "LABEL" : "Workflow content type denied from review",
+  $items['rules_content_rejected'] = entity_import('rules_config', '{ "rules_content_rejected" : {
+      "LABEL" : "Workflow content type rejected from review",
       "PLUGIN" : "reaction rule",
       "TAGS" : [ "CRF" ],
       "REQUIRES" : [ "workbench_moderation", "rules" ],
