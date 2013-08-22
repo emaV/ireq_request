@@ -210,9 +210,10 @@ function crf_request_form_request_node_form_alter(&$form, &$form_state, $form_id
         );
       }
       else {
+        // prepare crf_request array for email preview injecting relevant data
         $crf_requests = $form_state['values']['field_collection_request']['und'];
         $crf_requests['#max_delta'] = $max_delta;
-
+        $crf_requests['#deadline'] = $form_state['values']['field_request_deadline']['und'][0];
         $preview_request_table = theme('field_collection_request_preview', $crf_requests);
 
         $form['field_collection_request']['preview_requests'] = array(
@@ -323,6 +324,10 @@ function theme_field_collection_request_preview($element) {
     $request_item->field_request_recipients = $element[$delta]['field_request_recipients'];
     $request_item->field_request_requested_by = $element[$delta]['field_request_requested_by'];
 
+    // get deadline
+    // @TODO there should be a better way to do this
+    $deadline_date = strtotime($element['#deadline']['value']);
+
     // get report type
     $reporting_type_tid = $element[$delta]['field_reporting_type']['und'][0]['target_id'];
     if ($reporting_type_tid) {
@@ -351,7 +356,7 @@ function theme_field_collection_request_preview($element) {
       }
 
       // use rule to get norification body
-      $out = rules_invoke_component('rules_email_notification_body', $request_item, $request_url,  $recipient);
+      $out = rules_invoke_component('rules_email_notification_body', $request_item, $request_url,  $recipient, $deadline_date);
       $request_notification_body = array_shift($out);
 
       $rows[] = array('data' => array($reporting_type, "$recipient_name", "$requested_by_name", '<span class="link-preview">preview</span>'));

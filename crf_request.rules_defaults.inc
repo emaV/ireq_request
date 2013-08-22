@@ -235,12 +235,13 @@ function crf_request_default_rules_configuration() {
         "request_item" : { "label" : "Field Collection Request", "type" : "field_collection_item" },
         "report_url" : { "label" : "Report URL", "type" : "text" },
         "notification_body" : { "label" : "Email Body", "type" : "text", "parameter" : false },
-        "request_item_recipient" : { "label" : "Recipient", "type" : "user" }
+        "request_item_recipient" : { "label" : "Recipient", "type" : "user" },
+        "deadline" : { "label" : "Deadline", "type" : "date" }
       },
       "DO" : [
         { "data_set" : {
             "data" : [ "notification-body" ],
-            "value" : "Dear [request-item-recipient:name],\\r\\n\\r\\n[request-item:field-request-requested-by:name] is requesting that you provide [request-item:field-reporting-type:name] information.\\r\\n\\r\\n[request-item:field-append-to-alert-email]\\r\\n\\r\\nKindly provide your information online: [report-url:value]\\r\\n\\r\\nKind regards,\\r\\nOCHA"
+            "value" : "Dear [request-item-recipient:name],\\r\\n\\r\\n[request-item:field-request-requested-by:name] is requesting that you provide [request-item:field-reporting-type:name] information (deadline [deadline:value:long]).\\r\\n\\r\\n[request-item:field-append-to-alert-email]\\r\\n\\r\\nKindly provide your information online: [report-url:value]\\r\\n\\r\\nKind regards,\\r\\nOCHA"
           }
         }
       ],
@@ -288,6 +289,7 @@ function crf_request_default_rules_configuration() {
                     },
                     { "component_rules_email_notification_body" : {
                         "USING" : {
+                          "deadline" : [ "node:field-request-deadline" ],
                           "request_item" : [ "request-item" ],
                           "report_url" : [ "node:url" ],
                           "request_item_recipient" : [ "request-item-recipient" ]
