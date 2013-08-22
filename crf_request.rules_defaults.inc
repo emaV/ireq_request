@@ -241,7 +241,7 @@ function crf_request_default_rules_configuration() {
       "DO" : [
         { "data_set" : {
             "data" : [ "notification-body" ],
-            "value" : "Dear [request-item-recipient:name],\\r\\n\\r\\n[request-item:field-request-requested-by:name] is requesting that you provide [request-item:field-reporting-type:name] information (deadline [deadline:value:long]).\\r\\n\\r\\n[request-item:field-append-to-alert-email]\\r\\n\\r\\nKindly provide your information online: [report-url:value]\\r\\n\\r\\nKind regards,\\r\\nOCHA"
+            "value" : "Dear [request-item-recipient:name],\r\n\r\nOCHA is requesting that you provide information for the [request-item:field-reporting-type:name] (deadline [deadline:value:long]).\r\n\r\n[request-item:field-append-to-alert-email]\r\n\r\nPlease provide the requested information online: [report-url:value]\r\n\r\nIf you have any questions, please contact: [request-item:field-request-requested-by:name] ([request-item:field-request-requested-by:mail]).\r\n\r\nBest regards\r\n[site:name] OCHA team."
           }
         }
       ],
