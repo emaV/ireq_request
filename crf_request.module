@@ -7,6 +7,38 @@
 include_once 'crf_request.features.inc';
 
 /**
+ * Helper function to get Report with external URL
+ * @TODO remove hardcoded Content Type, implement an hook.
+ */
+function crf_request_report_external($reset = FALSE) {
+  $report_external_tid = &drupal_static(__FUNCTION__);
+  if (!isset($report_external_tid) || $reset) {
+    if (($cache = cache_get('list:CFR:report_external_tid')) && !$reset) {
+      $report_external_tid = $cache->data;
+    }
+    else {
+      $report_external_tid = array();
+      $options = array();
+      $vid = taxonomy_vocabulary_machine_name_load('reporting_types');
+      $tree = taxonomy_get_tree($vid->vid, 0, NULL, TRUE);
+      foreach ($tree as $term) {
+        if ('crf_external' == $term->field_content_type['und'][0]['value']) {
+          $report_external_tid[] = $term->tid;
+        }
+      }
+      cache_set('list:CFR:report_external_tid', $report_external_tid, 'cache');
+    }
+  }
+  // populate the option array for #states attribute condition
+  $options = array();
+  foreach ($report_external_tid as $tid) {
+    $options[] = array('value' => $tid);
+  }
+
+  return $options;
+}
+
+/**
  * Implements hook_views_default_views_alter.
  * Add EVA views field to CFR report content types
  * NOTE: EVA views are reported as overridden
@@ -239,12 +271,28 @@ function crf_request_form_request_node_form_alter(&$form, &$form_state, $form_id
       $form['field_collection_request']['und'][$max_delta]['remove_button']['#value'] = t('Clear');
     }
     $form['field_collection_request']['und']['add_more']['#value'] = t('Add another report');
-    // remove report entity reference form element
+
     for ($i = 0; $i <= $max_delta; $i++) {
+
+      // remove report entity reference form element
       unset($form['field_collection_request']['und'][$i]['field_report']);
+
+      // Manage visibility for external url with #state attribute
+      // http://api.drupal.org/api/drupal/includes%21common.inc/function/drupal_process_states/7
+      // https://drupal.org/node/1464758
+      $options = crf_request_report_external();
+      $selector = "select#edit-field-collection-request-und-$i-field-reporting-type-und";
+      $form['field_collection_request']['und'][$i]['field_crf_request_url']['#states'] = array(
+        'visible' => array(
+           $selector => $options,
+         ),
+      );
+
     }
   }
-//dpm(array('form' => $form, 'form_state' => $form_state), 'crf_request_form_request_node_form_alter - FINAL');
+
+// dpm(array('form' => $form, 'form_state' => $form_state), 'crf_request_form_request_node_form_alter - FINAL');
+
 }
 
 /**
