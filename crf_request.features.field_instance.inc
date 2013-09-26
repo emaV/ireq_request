@@ -80,6 +80,55 @@ function crf_request_field_default_field_instances() {
         'rows' => 5,
       ),
       'type' => 'text_textarea',
+      'weight' => 4,
+    ),
+  );
+
+  // Exported field_instance: 'field_collection_item-field_collection_request-field_crf_request_url'
+  $field_instances['field_collection_item-field_collection_request-field_crf_request_url'] = array(
+    'bundle' => 'field_collection_request',
+    'default_value' => NULL,
+    'deleted' => 0,
+    'description' => '',
+    'display' => array(
+      'default' => array(
+        'label' => 'above',
+        'module' => 'link',
+        'settings' => array(),
+        'type' => 'link_default',
+        'weight' => 4,
+      ),
+    ),
+    'entity_type' => 'field_collection_item',
+    'field_name' => 'field_crf_request_url',
+    'label' => 'External URL',
+    'required' => 0,
+    'settings' => array(
+      'attributes' => array(
+        'class' => '',
+        'configurable_title' => 0,
+        'rel' => '',
+        'target' => 'default',
+        'title' => '',
+      ),
+      'display' => array(
+        'url_cutoff' => 80,
+      ),
+      'enable_tokens' => 1,
+      'entity_translation_sync' => FALSE,
+      'rel_remove' => 'default',
+      'title' => 'none',
+      'title_maxlength' => 128,
+      'title_value' => '',
+      'url' => 0,
+      'user_register_form' => FALSE,
+      'validate_url' => 0,
+    ),
+    'widget' => array(
+      'active' => 0,
+      'module' => 'link',
+      'settings' => array(),
+      'type' => 'link_field',
       'weight' => 3,
     ),
   );
@@ -655,6 +704,7 @@ function crf_request_field_default_field_instances() {
       'active' => 1,
       'module' => 'date',
       'settings' => array(
+        'apply_chosen' => 0,
         'increment' => 15,
         'input_format' => 'm/d/Y - H:i:s',
         'input_format_custom' => '',
@@ -719,6 +769,7 @@ function crf_request_field_default_field_instances() {
   t('Deadline for information submission');
   t('Description');
   t('Emergencies');
+  t('External URL');
   t('Recipients');
   t('Reporting types');
   t('Request');
