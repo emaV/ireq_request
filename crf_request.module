@@ -289,7 +289,7 @@ function crf_request_form_request_node_form_alter(&$form, &$form_state, $form_id
       // http://api.drupal.org/api/drupal/includes%21common.inc/function/drupal_process_states/7
       // https://drupal.org/node/1464758
       $options = crf_request_report_external_options();
-      $selector = "select#edit-field-collection-request-und-$i-field-reporting-type-und";
+      $selector = ':input[name="field_collection_request[und][' . $i . '][field_reporting_type][und]"]';
       $form['field_collection_request']['und'][$i]['field_crf_request_url']['#states'] = array(
         'visible' => array(
            $selector => $options,
