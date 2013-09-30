@@ -29,12 +29,20 @@ function crf_request_report_external($reset = FALSE) {
       cache_set('list:CFR:report_external_tid', $report_external_tid, 'cache');
     }
   }
-  // populate the option array for #states attribute condition
-  $options = array();
-  foreach ($report_external_tid as $tid) {
-    $options[] = array('value' => $tid);
-  }
+  return $report_external_tid;
+}
 
+/**
+ * Helper function to get options for #states attribute
+ */
+function crf_request_report_external_options() {
+  $tids = crf_request_report_external();
+  $options = array();
+  if ($tids) {
+    foreach ($tids as $tid) {
+      $options[] = array('value' => $tid);
+    }
+  }
   return $options;
 }
 
@@ -280,7 +288,7 @@ function crf_request_form_request_node_form_alter(&$form, &$form_state, $form_id
       // Manage visibility for external url with #state attribute
       // http://api.drupal.org/api/drupal/includes%21common.inc/function/drupal_process_states/7
       // https://drupal.org/node/1464758
-      $options = crf_request_report_external();
+      $options = crf_request_report_external_options();
       $selector = "select#edit-field-collection-request-und-$i-field-reporting-type-und";
       $form['field_collection_request']['und'][$i]['field_crf_request_url']['#states'] = array(
         'visible' => array(
