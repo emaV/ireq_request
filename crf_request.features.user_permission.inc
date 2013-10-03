@@ -128,16 +128,6 @@ function crf_request_user_default_permissions() {
     ),
     'module' => 'view_unpublished',
   );
-/*
-  // Exported permission: 'view moderation history'.
-  $permissions['view moderation history'] = array(
-    'name' => 'view moderation history',
-    'roles' => array(
-      'CRF_user' => 'CRF_user',
-      'administrator' => 'administrator',
-    ),
-    'module' => 'workbench_moderation',
-  );
-*/
+
   return $permissions;
 }

@@ -50,12 +50,39 @@ function crf_request_default_rules_configuration() {
       ]
     }
   }');
+  $items['rules_content_published'] = entity_import('rules_config', '{ "rules_content_published" : {
+      "LABEL" : "Workflow content type published",
+      "PLUGIN" : "reaction rule",
+      "TAGS" : [ "CRF" ],
+      "REQUIRES" : [ "workbench_moderation", "rules" ],
+      "ON" : { "node_update" : [] },
+      "IF" : [
+        { "contents_current_state" : { "node" : [ "node" ], "moderation_state" : "published" } },
+        { "entity_has_field" : { "entity" : [ "node" ], "field" : "field_collection_request_ref" } },
+        { "entity_has_field" : {
+            "entity" : [ "node:field-collection-request-ref" ],
+            "field" : "field_request_requested_by"
+          }
+        }
+      ],
+      "DO" : [
+        { "mail" : {
+            "to" : [ "node:field-collection-request-ref:field-request-requested-by:mail" ],
+            "subject" : "[node:content-type] provided is now published",
+            "message" : "Dear [node:field-collection-request-ref:field-request-requested-by:name],\\r\\n\\r\\nKindly note that the [node:content-type] for the Information Request has been published.\\r\\n\\r\\n[node:log]\\r\\n\\r\\nThe information can be viewed online: [node:url]\\r\\n\\r\\nNo action is required on your part at this time.\\r\\n\\r\\nKind regards,\\r\\nOCHA",
+            "from" : [ "site:mail" ],
+            "language" : [ "" ]
+          }
+        }
+      ]
+    }
+  }');
   $items['rules_content_rejected'] = entity_import('rules_config', '{ "rules_content_rejected" : {
       "LABEL" : "Workflow content type rejected from review",
       "PLUGIN" : "reaction rule",
       "TAGS" : [ "CRF" ],
       "REQUIRES" : [ "workbench_moderation", "rules" ],
-      "ON" : [ "node_update" ],
+      "ON" : { "node_update" : [] },
       "IF" : [
         { "contents_previous_state" : { "node" : [ "node" ], "moderation_state" : "needs_review" } },
         { "contents_current_state" : { "node" : [ "node" ], "moderation_state" : "draft" } },
@@ -78,39 +105,12 @@ function crf_request_default_rules_configuration() {
       ]
     }
   }');
-  $items['rules_content_published'] = entity_import('rules_config', '{ "rules_content_published" : {
-      "LABEL" : "Workflow content type published",
-      "PLUGIN" : "reaction rule",
-      "TAGS" : [ "CRF" ],
-      "REQUIRES" : [ "workbench_moderation", "rules" ],
-      "ON" : [ "node_update" ],
-      "IF" : [
-        { "contents_current_state" : { "node" : [ "node" ], "moderation_state" : "published" } },
-        { "entity_has_field" : { "entity" : [ "node" ], "field" : "field_collection_request_ref" } },
-        { "entity_has_field" : {
-            "entity" : [ "node:field-collection-request-ref" ],
-            "field" : "field_request_requested_by"
-          }
-        }
-      ],
-      "DO" : [
-        { "mail" : {
-            "to" : [ "node:field-collection-request-ref:field-request-requested-by:mail" ],
-            "subject" : "[node:content-type] provided is now published",
-            "message" : "Dear [node:field-collection-request-ref:field-request-requested-by:name],\\r\\n\\r\\nKindly note that the [node:content-type] for the Information Request has been published.\\r\\n\\r\\n[node:log]\\r\\n\\r\\nThe information can be viewed online: [node:url]\\r\\n\\r\\nNo action is required on your part at this time.\\r\\n\\r\\nKind regards,\\r\\nOCHA",
-            "from" : [ "site:mail" ],
-            "language" : [ "" ]
-          }
-        }
-      ]
-    }
-  }');
   $items['rules_content_reviewed'] = entity_import('rules_config', '{ "rules_content_reviewed" : {
       "LABEL" : "Workflow content type sent to review",
       "PLUGIN" : "reaction rule",
       "TAGS" : [ "CRF" ],
       "REQUIRES" : [ "workbench_moderation", "rules" ],
-      "ON" : [ "node_update" ],
+      "ON" : { "node_update" : [] },
       "IF" : [
         { "contents_previous_state" : { "node" : [ "node" ], "moderation_state" : "draft" } },
         { "contents_current_state" : { "node" : [ "node" ], "moderation_state" : "needs_review" } },
@@ -213,7 +213,7 @@ function crf_request_default_rules_configuration() {
       "ACTIVE" : false,
       "TAGS" : [ "CRF" ],
       "REQUIRES" : [ "rules", "workbench_moderation" ],
-      "ON" : [ "workbench_moderation_after_moderation_transition" ],
+      "ON" : { "workbench_moderation_after_moderation_transition" : [] },
       "IF" : [
         { "node_is_of_type" : { "node" : [ "node" ], "type" : { "value" : { "report" : "report" } } } },
         { "contents_current_state" : { "node" : [ "node" ], "moderation_state" : "needs_review" } },
@@ -241,11 +241,34 @@ function crf_request_default_rules_configuration() {
       "DO" : [
         { "data_set" : {
             "data" : [ "notification-body" ],
-            "value" : "Dear [request-item-recipient:name],\r\n\r\nOCHA is requesting that you provide information for the [request-item:field-reporting-type:name] (deadline [deadline:value:long]).\r\n\r\n[request-item:field-append-to-alert-email]\r\n\r\nPlease provide the requested information online: [report-url:value]\r\n\r\nIf you have any questions, please contact: [request-item:field-request-requested-by:name] ([request-item:field-request-requested-by:mail]).\r\n\r\nBest regards\r\n[site:name] OCHA team."
+            "value" : "Dear [request-item-recipient:name],\\r\\n\\r\\nOCHA is requesting that you provide information for the [request-item:field-reporting-type:name] (deadline [deadline:value:long]).\\r\\n\\r\\n[request-item:field-append-to-alert-email]\\r\\n\\r\\nPlease provide the requested information online: [report-url:value]\\r\\n\\r\\nIf you have any questions, please contact: [request-item:field-request-requested-by:name] ([request-item:field-request-requested-by:mail]).\\r\\n\\r\\nBest regards\\r\\n[site:name] OCHA team."
           }
         }
       ],
       "PROVIDES VARIABLES" : [ "notification_body" ]
+    }
+  }');
+  $items['rules_fix_report_url'] = entity_import('rules_config', '{ "rules_fix_report_url" : {
+      "LABEL" : "Fix report url",
+      "PLUGIN" : "rule",
+      "TAGS" : [ "CRF" ],
+      "REQUIRES" : [ "rules" ],
+      "USES VARIABLES" : {
+        "request_item" : { "label" : "Field Collection Request", "type" : "field_collection_item" },
+        "report_url" : { "label" : "Report URL", "type" : "text" }
+      },
+      "IF" : [
+        { "entity_has_field" : { "entity" : [ "request-item" ], "field" : "field_crf_request_url" } },
+        { "NOT data_is_empty" : { "data" : [ "request-item:field-crf-request-url:url" ] } }
+      ],
+      "DO" : [
+        { "data_set" : {
+            "data" : [ "report-url" ],
+            "value" : "[request-item:field-crf-request-url:url]"
+          }
+        }
+      ],
+      "PROVIDES VARIABLES" : [ "report_url" ]
     }
   }');
   $items['rules_request_submission'] = entity_import('rules_config', '{ "rules_request_submission" : {
@@ -253,7 +276,7 @@ function crf_request_default_rules_configuration() {
       "PLUGIN" : "reaction rule",
       "TAGS" : [ "CRF" ],
       "REQUIRES" : [ "rules" ],
-      "ON" : [ "node_insert" ],
+      "ON" : { "node_insert" : [] },
       "IF" : [
         { "node_is_of_type" : { "node" : [ "node" ], "type" : { "value" : { "request" : "request" } } } },
         { "entity_has_field" : {
@@ -287,12 +310,17 @@ function crf_request_default_rules_configuration() {
                         "report_number" : [ "report_number" ]
                       }
                     },
+                    { "component_rules_fix_report_url" : {
+                        "USING" : { "request_item" : [ "request_item" ], "report_url" : "[node:url]" },
+                        "PROVIDE" : { "report_url" : { "report_url" : "Report URL" } }
+                      }
+                    },
                     { "component_rules_email_notification_body" : {
                         "USING" : {
-                          "deadline" : [ "node:field-request-deadline" ],
                           "request_item" : [ "request-item" ],
-                          "report_url" : [ "node:url" ],
-                          "request_item_recipient" : [ "request-item-recipient" ]
+                          "report_url" : [ "report-url" ],
+                          "request_item_recipient" : [ "request-item-recipient" ],
+                          "deadline" : [ "node:field-request-deadline" ]
                         },
                         "PROVIDE" : { "notification_body" : { "notification_body" : "Email Body" } }
                       }
