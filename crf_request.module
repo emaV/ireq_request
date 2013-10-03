@@ -314,25 +314,27 @@ function crf_request_field_collection_request_form_validate($form, &$form_state)
   $external_tid = crf_request_report_external();
   for ($i=0; $i<=$max_delta; $i++) {
     $field_collection_subform = $form_state['values']['field_collection_request']['und'][$i];
+
     // Check reporting type
     if (empty($field_collection_subform['field_reporting_type']['und'][0]['target_id'])) {
       form_set_error('field_collection_request][und][' . $i . '][field_reporting_type', t('Please select a Report type'));
     }
     else {
       $report_tid = $field_collection_subform['field_reporting_type']['und'][0]['target_id'];
-      $url = $field_collection_subform['field_crf_request_url']['und'][$i]['url'];
-//dpm($field_collection_subform['field_crf_request_url']['und'][$i], "tid: $report_tid - $url ". valid_url($url)); 
-      if (in_array($report_tid, $external_tid) && !valid_url($field_collection_subform['field_crf_request_url']['und'][$i]['url'])) {
+      $url = $field_collection_subform['field_crf_request_url']['und'][0]['url'];
+      if (in_array($report_tid, $external_tid) && !valid_url($url, TRUE)) {
         form_set_error('field_collection_request][und][' . $i . '][field_crf_request_url', t('Please enter a valid url'));
       }
     }
+
     // Check recipients
     $recipient_delta = count($field_collection_subform['field_request_recipients']['und']);
-    if ( ($recipient_delta < 2) && empty($field_collection_subform['field_request_recipients']['und'][$i]['target_id']) ) {
+    if ( ($recipient_delta < 2) && empty($field_collection_subform['field_request_recipients']['und'][0]['target_id']) ) {
       form_set_error('field_collection_request][und][' . $i . '][field_request_recipients', t('Please select a Recipient'));
     }
+
     // Check Referral
-    if (empty($field_collection_subform['field_request_requested_by']['und'][$i]['target_id'])) {
+    if (empty($field_collection_subform['field_request_requested_by']['und'][0]['target_id'])) {
       form_set_error('field_collection_request][und][' . $i . '][field_request_requested_by', t('Please select a Referral'));
     }
 
@@ -399,9 +401,15 @@ function theme_field_collection_request_preview($element) {
 
     // get report type
     $reporting_type_tid = $element[$delta]['field_reporting_type']['und'][0]['target_id'];
-    if ($reporting_type_tid) {
-      $reporting_type_term = taxonomy_term_load($reporting_type_tid);
-      $reporting_type = $reporting_type_term->name;
+    $reporting_type_term = taxonomy_term_load($reporting_type_tid);
+    $reporting_type = $reporting_type_term->name;
+
+    // set (fake) request url
+    if (in_array($reporting_type_tid, crf_request_report_external())) {
+      $request_url = $element[$delta]['field_crf_request_url']['und'][0]['url'];
+    }
+    else {
+      $request_url = $base_url . '/report/TBD';
     }
 
     // get requested by
@@ -411,9 +419,6 @@ function theme_field_collection_request_preview($element) {
       $requested_by_wrapper = entity_metadata_wrapper('user', $requested_by);
       $requested_by_name = $requested_by_wrapper->name->value();
     }
-
-    // set (fake) request url
-    $request_url = $base_url . '/report/TBD';
 
     // get recipient
     foreach ($element[$delta]['field_request_recipients']['und'] as $recipient) {
