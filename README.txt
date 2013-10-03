@@ -62,7 +62,7 @@ rules_check_report_references - Update report adding backreferences
 rules_create_report_from_report_term - intermediate rule
 rules_create_report_from_request_item - intermediate rule
 rules_email_notification_body - set notification body
-
+rules_fix_report_url - fix request report url (use provided url only if is an external)
 
 == Taxonomy (crf_request.features.taxonomy.inc)
 
