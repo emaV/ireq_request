@@ -693,7 +693,7 @@ function crf_request_field_default_field_instances() {
     'label' => 'Deadline for information submission',
     'required' => 1,
     'settings' => array(
-      'default_value' => 'strtotime',
+      'default_value' => 'blank',
       'default_value2' => 'same',
       'default_value_code' => '+7 days',
       'default_value_code2' => '',
