@@ -17,7 +17,8 @@ function crf_request_default_rules_configuration() {
       "USES VARIABLES" : {
         "node_report" : { "label" : "Report Node", "type" : "node" },
         "field_collection_request" : { "label" : "Field Collection Request", "type" : "field_collection_item" },
-        "user_recipient" : { "label" : "Recipient", "type" : "user" }
+        "user_recipient" : { "label" : "Recipient", "type" : "user" },
+        "term_report" : { "label" : "Report Term", "type": "taxonomy_term" }
       },
       "IF" : [
         { "entity_has_field" : { "entity" : [ "node-report" ], "field" : "field_collection_request_ref" } },
@@ -168,7 +169,8 @@ function crf_request_default_rules_configuration() {
         { "component_rules_check_report_references" : {
             "node_report" : [ "node_report" ],
             "field_collection_request" : [ "field_collection_request" ],
-            "user_recipient" : [ "user_recipient" ]
+            "user_recipient" : [ "user_recipient" ],
+            "term_report" : [ "report_type_term" ]
           }
         },
         { "entity_save" : { "data" : [ "node-report" ], "immediate" : 1 } }
