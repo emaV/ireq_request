@@ -353,6 +353,13 @@ function crf_request_strongarm() {
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
+  $strongarm->name = 'pathauto_node_report_pattern';
+  $strongarm->value = 'request/[node:title]';
+  $export['pathauto_node_report_pattern'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
   $strongarm->name = 'pathauto_node_request_pattern';
   $strongarm->value = '[node:content-type:machine-name]/[node:nid]';
   $export['pathauto_node_request_pattern'] = $strongarm;
