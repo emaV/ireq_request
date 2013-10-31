@@ -18,7 +18,7 @@ function crf_request_default_rules_configuration() {
         "node_report" : { "label" : "Report Node", "type" : "node" },
         "field_collection_request" : { "label" : "Field Collection Request", "type" : "field_collection_item" },
         "user_recipient" : { "label" : "Recipient", "type" : "user" },
-        "term_report" : { "label" : "Report Term", "type": "taxonomy_term" }
+        "term_report" : { "label" : "Report Term", "type" : "taxonomy_term" }
       },
       "IF" : [
         { "entity_has_field" : { "entity" : [ "node-report" ], "field" : "field_collection_request_ref" } },
@@ -186,6 +186,7 @@ function crf_request_default_rules_configuration() {
       "USES VARIABLES" : {
         "field_collection_request" : { "label" : "Field Collection Request", "type" : "field_collection_item" },
         "user_recipient" : { "label" : "Recipient", "type" : "user" },
+        "node_report" : { "label" : "Report Node", "type" : "node", "parameter" : false },
         "report_number" : { "label" : "Report Number", "type" : "text" }
       },
       "IF" : [
@@ -203,10 +204,12 @@ function crf_request_default_rules_configuration() {
               "user_recipient" : [ "user_recipient" ],
               "report_number" : [ "report_number" ]
             },
-            "PROVIDE" : { "node_report" : { "node_report" : "Report Node" } }
+            "PROVIDE" : { "node_report" : { "node_reportq" : "Report Node" } }
           }
-        }
-      ]
+        },
+        { "data_set" : { "data" : [ "node-report" ], "value" : [ "node-reportq" ] } }
+      ],
+      "PROVIDES VARIABLES" : [ "node_report" ]
     }
   }');
   $items['rules_crf_workflow_simple'] = entity_import('rules_config', '{ "rules_crf_workflow_simple" : {
@@ -293,6 +296,11 @@ function crf_request_default_rules_configuration() {
             "PROVIDE" : { "variable_added" : { "report_delta" : "Report delta" } }
           }
         },
+        { "variable_add" : {
+            "USING" : { "type" : "node", "value" : [ "" ] },
+            "PROVIDE" : { "variable_added" : { "node_report" : "Added variable" } }
+          }
+        },
         { "LOOP" : {
             "USING" : { "list" : [ "node:field-collection-request" ] },
             "ITEM" : { "request_item" : "Current request item" },
@@ -307,13 +315,20 @@ function crf_request_default_rules_configuration() {
                       }
                     },
                     { "component_rules_create_report_from_request_item" : {
-                        "field_collection_request" : [ "request-item" ],
-                        "user_recipient" : [ "request_item_recipient" ],
-                        "report_number" : [ "report_number" ]
+                        "USING" : {
+                          "field_collection_request" : [ "request-item" ],
+                          "user_recipient" : [ "request_item_recipient" ],
+                          "report_number" : [ "report_number" ]
+                        },
+                        "PROVIDE" : { "node_report" : { "node_reportq" : "Report Node" } }
                       }
                     },
+                    { "data_set" : { "data" : [ "node-report" ], "value" : [ "node-reportq" ] } },
                     { "component_rules_fix_report_url" : {
-                        "USING" : { "request_item" : [ "request_item" ], "report_url" : "[node:url]" },
+                        "USING" : {
+                          "request_item" : [ "request_item" ],
+                          "report_url" : [ "node-report:url" ]
+                        },
                         "PROVIDE" : { "report_url" : { "report_url" : "Report URL" } }
                       }
                     },
