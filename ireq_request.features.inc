@@ -1,13 +1,13 @@
 <?php
 /**
  * @file
- * crf_request.features.inc
+ * ireq_request.features.inc
  */
 
 /**
  * Implements hook_ctools_plugin_api().
  */
-function crf_request_ctools_plugin_api($module = NULL, $api = NULL) {
+function ireq_request_ctools_plugin_api($module = NULL, $api = NULL) {
   if ($module == "context" && $api == "context") {
     return array("version" => "3");
   }
@@ -19,14 +19,14 @@ function crf_request_ctools_plugin_api($module = NULL, $api = NULL) {
 /**
  * Implements hook_views_api().
  */
-function crf_request_views_api($module = NULL, $api = NULL) {
+function ireq_request_views_api($module = NULL, $api = NULL) {
   return array("api" => "3.0");
 }
 
 /**
  * Implements hook_node_info().
  */
-function crf_request_node_info() {
+function ireq_request_node_info() {
   $items = array(
     'report' => array(
       'name' => t('Report'),

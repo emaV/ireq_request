@@ -1,13 +1,13 @@
 <?php
 /**
  * @file
- * crf_request.features.taxonomy.inc
+ * ireq_request.features.taxonomy.inc
  */
 
 /**
  * Implements hook_taxonomy_default_vocabularies().
  */
-function crf_request_taxonomy_default_vocabularies() {
+function ireq_request_taxonomy_default_vocabularies() {
   return array(
     'reporting_types' => array(
       'name' => 'Reporting types',

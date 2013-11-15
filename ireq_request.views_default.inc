@@ -1,19 +1,19 @@
 <?php
 /**
  * @file
- * crf_request.views_default.inc
+ * ireq_request.views_default.inc
  */
 
 /**
  * Implements hook_views_default_views().
  */
-function crf_request_views_default_views() {
+function ireq_request_views_default_views() {
   $export = array();
 
   $view = new view();
   $view->name = 'eva_field_collection_request';
   $view->description = 'Render field_collection for entity id';
-  $view->tag = 'CRF';
+  $view->tag = 'IREQ';
   $view->base_table = 'field_collection_item';
   $view->human_name = 'EVA_field_collection_request';
   $view->core = 7;
@@ -317,7 +317,7 @@ function crf_request_views_default_views() {
   $view = new view();
   $view->name = 'eva_report_workflow';
   $view->description = '';
-  $view->tag = 'CRF';
+  $view->tag = 'IREQ';
   $view->base_table = 'node_revision';
   $view->human_name = 'EVA_report_workflow';
   $view->core = 7;

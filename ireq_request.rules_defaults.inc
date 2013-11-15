@@ -1,18 +1,18 @@
 <?php
 /**
  * @file
- * crf_request.rules_defaults.inc
+ * ireq_request.rules_defaults.inc
  */
 
 /**
  * Implements hook_default_rules_configuration().
  */
-function crf_request_default_rules_configuration() {
+function ireq_request_default_rules_configuration() {
   $items = array();
   $items['rules_check_report_references'] = entity_import('rules_config', '{ "rules_check_report_references" : {
       "LABEL" : "Check Report References",
       "PLUGIN" : "rule",
-      "TAGS" : [ "CRF" ],
+      "TAGS" : [ "IREQ" ],
       "REQUIRES" : [ "rules", "workbench_moderation" ],
       "USES VARIABLES" : {
         "node_report" : { "label" : "Report Node", "type" : "node" },
@@ -54,7 +54,7 @@ function crf_request_default_rules_configuration() {
   $items['rules_content_published'] = entity_import('rules_config', '{ "rules_content_published" : {
       "LABEL" : "Workflow content type published",
       "PLUGIN" : "reaction rule",
-      "TAGS" : [ "CRF" ],
+      "TAGS" : [ "IREQ" ],
       "REQUIRES" : [ "workbench_moderation", "rules" ],
       "ON" : { "node_update" : [] },
       "IF" : [
@@ -81,7 +81,7 @@ function crf_request_default_rules_configuration() {
   $items['rules_content_rejected'] = entity_import('rules_config', '{ "rules_content_rejected" : {
       "LABEL" : "Workflow content type rejected from review",
       "PLUGIN" : "reaction rule",
-      "TAGS" : [ "CRF" ],
+      "TAGS" : [ "IREQ" ],
       "REQUIRES" : [ "workbench_moderation", "rules" ],
       "ON" : { "node_update" : [] },
       "IF" : [
@@ -109,7 +109,7 @@ function crf_request_default_rules_configuration() {
   $items['rules_content_reviewed'] = entity_import('rules_config', '{ "rules_content_reviewed" : {
       "LABEL" : "Workflow content type sent to review",
       "PLUGIN" : "reaction rule",
-      "TAGS" : [ "CRF" ],
+      "TAGS" : [ "IREQ" ],
       "REQUIRES" : [ "workbench_moderation", "rules" ],
       "ON" : { "node_update" : [] },
       "IF" : [
@@ -137,7 +137,7 @@ function crf_request_default_rules_configuration() {
   $items['rules_create_report_from_report_term'] = entity_import('rules_config', '{ "rules_create_report_from_report_term" : {
       "LABEL" : "Create Report from Report term",
       "PLUGIN" : "rule",
-      "TAGS" : [ "CRF" ],
+      "TAGS" : [ "IREQ" ],
       "REQUIRES" : [ "rules" ],
       "USES VARIABLES" : {
         "report_type_term" : { "label" : "Report Type Term", "type" : "taxonomy_term" },
@@ -181,7 +181,7 @@ function crf_request_default_rules_configuration() {
   $items['rules_create_report_from_request_item'] = entity_import('rules_config', '{ "rules_create_report_from_request_item" : {
       "LABEL" : "Create Report from Request item",
       "PLUGIN" : "rule",
-      "TAGS" : [ "CRF" ],
+      "TAGS" : [ "IREQ" ],
       "REQUIRES" : [ "rules" ],
       "USES VARIABLES" : {
         "field_collection_request" : { "label" : "Field Collection Request", "type" : "field_collection_item" },
@@ -212,11 +212,11 @@ function crf_request_default_rules_configuration() {
       "PROVIDES VARIABLES" : [ "node_report" ]
     }
   }');
-  $items['rules_crf_workflow_simple'] = entity_import('rules_config', '{ "rules_crf_workflow_simple" : {
-      "LABEL" : "CRF Workflow simple",
+  $items['rules_ireq_workflow_simple'] = entity_import('rules_config', '{ "rules_ireq_workflow_simple" : {
+      "LABEL" : "IREQ Workflow simple",
       "PLUGIN" : "reaction rule",
       "ACTIVE" : false,
-      "TAGS" : [ "CRF" ],
+      "TAGS" : [ "IREQ" ],
       "REQUIRES" : [ "rules", "workbench_moderation" ],
       "ON" : { "workbench_moderation_after_moderation_transition" : [] },
       "IF" : [
@@ -234,7 +234,7 @@ function crf_request_default_rules_configuration() {
   $items['rules_email_notification_body'] = entity_import('rules_config', '{ "rules_email_notification_body" : {
       "LABEL" : "Email notification body",
       "PLUGIN" : "rule",
-      "TAGS" : [ "CRF" ],
+      "TAGS" : [ "IREQ" ],
       "REQUIRES" : [ "rules" ],
       "USES VARIABLES" : {
         "request_item" : { "label" : "Field Collection Request", "type" : "field_collection_item" },
@@ -256,20 +256,20 @@ function crf_request_default_rules_configuration() {
   $items['rules_fix_report_url'] = entity_import('rules_config', '{ "rules_fix_report_url" : {
       "LABEL" : "Fix report url",
       "PLUGIN" : "rule",
-      "TAGS" : [ "CRF" ],
+      "TAGS" : [ "IREQ" ],
       "REQUIRES" : [ "rules" ],
       "USES VARIABLES" : {
         "request_item" : { "label" : "Field Collection Request", "type" : "field_collection_item" },
         "report_url" : { "label" : "Report URL", "type" : "text" }
       },
       "IF" : [
-        { "entity_has_field" : { "entity" : [ "request-item" ], "field" : "field_crf_request_url" } },
-        { "NOT data_is_empty" : { "data" : [ "request-item:field-crf-request-url:url" ] } }
+        { "entity_has_field" : { "entity" : [ "request-item" ], "field" : "field_ireq_request_url" } },
+        { "NOT data_is_empty" : { "data" : [ "request-item:field-ireq-request-url:url" ] } }
       ],
       "DO" : [
         { "data_set" : {
             "data" : [ "report-url" ],
-            "value" : "[request-item:field-crf-request-url:url]"
+            "value" : "[request-item:field-ireq-request-url:url]"
           }
         }
       ],
@@ -279,7 +279,7 @@ function crf_request_default_rules_configuration() {
   $items['rules_request_submission'] = entity_import('rules_config', '{ "rules_request_submission" : {
       "LABEL" : "Request submission (report creation and notification)",
       "PLUGIN" : "reaction rule",
-      "TAGS" : [ "CRF" ],
+      "TAGS" : [ "IREQ" ],
       "REQUIRES" : [ "rules" ],
       "ON" : { "node_insert" : [] },
       "IF" : [

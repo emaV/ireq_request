@@ -1,13 +1,13 @@
 <?php
 /**
  * @file
- * crf_request.features.field_instance.inc
+ * ireq_request.features.field_instance.inc
  */
 
 /**
  * Implements hook_field_default_field_instances().
  */
-function crf_request_field_default_field_instances() {
+function ireq_request_field_default_field_instances() {
   $field_instances = array();
 
   // Exported field_instance: 'field_collection_item-field_collection_request-field_append_to_alert_email'
@@ -84,8 +84,8 @@ function crf_request_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'field_collection_item-field_collection_request-field_crf_request_url'
-  $field_instances['field_collection_item-field_collection_request-field_crf_request_url'] = array(
+  // Exported field_instance: 'field_collection_item-field_collection_request-field_ireq_request_url'
+  $field_instances['field_collection_item-field_collection_request-field_ireq_request_url'] = array(
     'bundle' => 'field_collection_request',
     'default_value' => NULL,
     'deleted' => 0,
@@ -100,7 +100,7 @@ function crf_request_field_default_field_instances() {
       ),
     ),
     'entity_type' => 'field_collection_item',
-    'field_name' => 'field_crf_request_url',
+    'field_name' => 'field_ireq_request_url',
     'label' => 'External URL',
     'required' => 0,
     'settings' => array(

@@ -1,20 +1,20 @@
 <?php
 /**
  * @file
- * crf_request.features.user_permission.inc
+ * ireq_request.features.user_permission.inc
  */
 
 /**
  * Implements hook_user_default_permissions().
  */
-function crf_request_user_default_permissions() {
+function ireq_request_user_default_permissions() {
   $permissions = array();
 
   // Exported permission: 'create report content'.
   $permissions['create report content'] = array(
     'name' => 'create report content',
     'roles' => array(
-      'CRF_user' => 'CRF_user',
+      'IREQ_user' => 'IREQ_user',
     ),
     'module' => 'node',
   );
@@ -23,7 +23,7 @@ function crf_request_user_default_permissions() {
   $permissions['create request content'] = array(
     'name' => 'create request content',
     'roles' => array(
-      'CRF_user' => 'CRF_user',
+      'IREQ_user' => 'IREQ_user',
     ),
     'module' => 'node',
   );
@@ -60,8 +60,8 @@ function crf_request_user_default_permissions() {
   $permissions['edit any report content'] = array(
     'name' => 'edit any report content',
     'roles' => array(
-      'CRF_manager' => 'CRF_manager',
-      'CRF_user' => 'CRF_user',
+      'IREQ_manager' => 'IREQ_manager',
+      'IREQ_user' => 'IREQ_user',
     ),
     'module' => 'node',
   );
@@ -77,7 +77,7 @@ function crf_request_user_default_permissions() {
   $permissions['edit own report content'] = array(
     'name' => 'edit own report content',
     'roles' => array(
-      'CRF_user' => 'CRF_user',
+      'IREQ_user' => 'IREQ_user',
     ),
     'module' => 'node',
   );
@@ -100,7 +100,7 @@ function crf_request_user_default_permissions() {
   $permissions['moderate report state from draft to published'] = array(
     'name' => 'moderate report state from draft to published',
     'roles' => array(
-      'CRF_user' => 'CRF_user',
+      'IREQ_user' => 'IREQ_user',
     ),
     'module' => 'workbench_moderation',
   );
@@ -123,7 +123,7 @@ function crf_request_user_default_permissions() {
   $permissions['view any unpublished report content'] = array(
     'name' => 'view any unpublished report content',
     'roles' => array(
-      'CRF_user' => 'CRF_user',
+      'IREQ_user' => 'IREQ_user',
       'administrator' => 'administrator',
     ),
     'module' => 'view_unpublished',
