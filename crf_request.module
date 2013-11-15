@@ -1,0 +1,447 @@
+<?php
+/**
+ * @file
+ * Code for the CRF Request feature.
+ */
+
+include_once 'crf_request.features.inc';
+
+/**
+ * Helper function to get Report with external URL
+ * @TODO remove hardcoded Content Type, implement an hook.
+ */
+function crf_request_report_external($reset = FALSE) {
+  $report_external_tid = &drupal_static(__FUNCTION__);
+  if (!isset($report_external_tid) || $reset) {
+    if (($cache = cache_get('list:CFR:report_external_tid')) && !$reset) {
+      $report_external_tid = $cache->data;
+    }
+    else {
+      $report_external_tid = array();
+      $options = array();
+      $vid = taxonomy_vocabulary_machine_name_load('reporting_types');
+      $tree = taxonomy_get_tree($vid->vid, 0, NULL, TRUE);
+      foreach ($tree as $term) {
+        if ('crf_external' == $term->field_content_type['und'][0]['value']) {
+          $report_external_tid[] = $term->tid;
+        }
+      }
+      cache_set('list:CFR:report_external_tid', $report_external_tid, 'cache');
+    }
+  }
+  return $report_external_tid;
+}
+
+/**
+ * Helper function to get options for #states attribute
+ */
+function crf_request_report_external_options() {
+  $tids = crf_request_report_external();
+  $options = array();
+  if ($tids) {
+    foreach ($tids as $tid) {
+      $options[] = array('value' => $tid);
+    }
+  }
+  return $options;
+}
+
+/**
+ * Implements hook_views_default_views_alter.
+ * Add EVA views field to CFR report content types
+ * NOTE: EVA views are reported as overridden
+ *       Is a bug of features:
+ *       Alter hooks causing status to always be overridden - http://drupal.org/node/766264
+ *       Remove Alterifications from export - http://drupal.org/node/838612
+ */
+function crf_request_views_default_views_alter(&$views) {
+  $content_types = crf_core_report_types(TRUE);
+  if ($content_types) {
+    $bundles = array_keys($content_types);
+
+    // view: eva_field_collection_request
+    // display_id: entity_view_1
+    if (isset($views['eva_field_collection_request'])) {
+      $views['eva_field_collection_request']->display['entity_view_1']->display_options['bundles'] = $bundles;
+  //dpm($views['eva_field_collection_request']->display['entity_view_1']->display_options['bundles'], 'eva_field_collection_request > bundles');
+    }
+
+    // view: eva_report_workflow
+    // display_id: entity_view_1
+    if (isset($views['eva_report_workflow'])) {
+      $views['eva_report_workflow']->display['entity_view_1']->display_options['bundles'] = $bundles;
+  //dpm($views['eva_report_workflow']->display['entity_view_1']->display_options['bundles'], 'eva_report_workflow > bundles');
+    }
+  }
+}
+
+/**
+ * Implements hook_node_presave().
+ */
+function crf_request_node_presave($node) {
+  if ($node->type == 'request') {
+/*
+    $reporting_types = array();
+    foreach ($node->field_reporting_type['und'] as $reporting_type) {
+      $reporting_type_term = taxonomy_term_load($reporting_type['target_id']);
+      $reporting_types[] = $reporting_type_term->name;
+    }
+    $node->title = t('@reporting_types @title', array('@reporting_types' => implode(', ', $reporting_types), '@title' => $node->title));
+*/
+  }
+}
+
+/**
+ * Implements hook_block_info().
+ */
+function crf_request_block_info() {
+  $blocks['create_request'] = array(
+    'info' => t('Create Request (CRF)'),
+  );
+  return $blocks;
+}
+
+/**
+ * Implements hook_block_view().
+ */
+function crf_request_block_view($delta = '') {
+  $block = array();
+
+  switch ($delta) {
+    case 'create_request':
+      $block['subject'] = t('Create Request');
+      $block['content'] = _crf_request_create_request();
+      break;
+  }
+
+  return $block;
+}
+
+/**
+ * Create request block
+ */
+function _crf_request_create_request() {
+  $link_create = l('Create request', 'node/add/request', array('attributes' => array('id' => 'crf-create-request', 'class' => array('button', 'create-request'))));
+  return $link_create;
+}
+
+/**
+ * Implements hook_form_alter().
+ * CRF Reports
+ *   Check for field_collection_request_ref field.
+ *   If it is there then the node is a "CRF report".
+ *   Modify availabel buttons according workflow
+ */
+function crf_request_form_alter(&$form, &$form_state, $form_id) {
+
+  // check if is CRF report node edit form
+  if (isset($form['field_collection_request_ref'])) {
+
+    $form['#pre_render'][] = 'crf_request_form_report_pre_render';
+    unset($form['revision_information']['#group']);
+
+    // Get all the states *this* user can access. If states is false, this user
+    // can not change the moderation state
+    $moderation_state = $form['#node']->workbench_moderation['current']->state;
+    $states_all = workbench_moderation_states();
+//dpm($states_all, 'crf_request_form_alter > $states_all');
+//dpm(workbench_moderation_states_next($moderation_state, $user, $form['#node']), "crf_request_form_alter > workbench_moderation_states_next ($moderation_state)");
+    if ($states = workbench_moderation_states_next($moderation_state, $user, $form['#node'])) {
+      $form['actions']['submit']['#value'] = t('Save draft');
+      foreach($states as $state => $state_label) {
+        if ($state <> $moderation_state) {
+          $form['actions']['moderate_' . $state] = array(
+            '#type'  => 'submit',
+            '#value' => t('Save & @state', array('@state' => $states_all[$state]->description)),
+            '#crf_status_new' => $state,
+            '#executes_submit_callback' => TRUE,
+          );
+          $form['actions']['moderate_' . $state]['#submit'] = $form['actions']['submit']['#submit'];
+          array_unshift($form['actions']['moderate_' . $state]['#submit'], 'crf_request_node_form_submit');
+        }
+      }
+    }
+//dpm(array('form' => $form, 'form_state' => $form_state), "crf_request_form_alter > $form_id");
+
+  }
+}
+
+/**
+ * Pre-render callback to cleanup node form for CRF report.
+ */
+function crf_request_form_report_pre_render($form) {
+
+  // Get rendered node
+  $node = $form['#node'];
+  $node_view = node_view($node);
+
+  // hide elements
+  hide($form['title']);
+  hide($form['field_collection_request_ref']);
+  $form['field_collection_request_ref_view'] = $node_view['eva_field_collection_request_entity_view_1'];
+  $form['field_collection_request_ref_view']['#weight'] = $form['field_collection_request_ref']['#weight'];
+  hide($form['field_recipient']);
+  $form['field_recipient_view'] = $node_view['field_recipient'];
+  $form['field_recipient_view']['#weight'] = $form['field_recipient']['#weight'];
+//  hide($form['comment_settings']);
+//  hide($form['path']);
+
+  // set moderation workflow
+  $moderation_state = $form['#node']->workbench_moderation['current']->state;
+  $moderation_label = workbench_moderation_state_label($moderation_state);
+  $form['revision_information']['#title'] .= ' - ' . t('Current state: @state', array('@state' => $moderation_label));
+  hide($form['revision_information']['workbench_moderation_state_new']);
+  $form['revision_information']['log_view'] = $node_view['eva_report_workflow_entity_view_1'];
+  $form['revision_information']['log_view']['#weight'] = $form['revision_information']['log']['#weight'] + 1;
+
+//  array_unshift($form['actions']['submit']['#submit'], 'cfr_request_node_form_submit');
+//  array_pop($form['actions']['submit']['#submit']);
+
+//dpm($node_view, 'crf_request_form_report_pre_render > $node_view');
+//dpm($form, 'crf_request_form_report_pre_render > form');
+//dpm($form['revision_information'], 'crf_request_form_report_pre_render > form["revision_information"]');
+  return $form;
+}
+
+/**
+ * CFR Report node form submit callback.
+ * Update form_values based on the clicked button.
+ */
+function crf_request_node_form_submit($form, &$form_state) {
+
+  if (isset($form_state['clicked_button']['#crf_status_new'])) {
+    $form_state['values']['workbench_moderation_state_new'] = $form_state['clicked_button']['#crf_status_new'];
+  }
+//dpm($form_state['clicked_button']['#cfr_status_new'], '$form_state[clicked_button');
+//dpm($form_state, 'crf_request_node_form_submit > $form_state');
+}
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ * Add preview feature.
+ */
+function crf_request_form_request_node_form_alter(&$form, &$form_state, $form_id) {
+  $node = $form['#node'];
+  if (!isset($node->nid)) {
+    $form['actions']['submit']['#value'] = t('Create & Send Info Request');
+/*
+    // Help link
+    $help_link = theme('advanced_help_topic', array(
+      'module' => 'crf_request',
+      'topic' => 'request-email',
+    ));
+    $form['field_append_to_alert_email']['#prefix'] = $help_link . '&nbsp;' . t('Show me an Information Request email example');
+*/
+    if (isset($form['field_collection_request'])) {
+
+      // check form step (mail preview is actually a step)
+      $preview = isset($form_state['storage']['crf_request_preview']) ? $form_state['storage']['crf_request_preview'] : FALSE;
+      $max_delta = $form['field_collection_request']['und']['#max_delta'];
+
+      if (!$preview) {
+        // Add preview button
+        $form['field_collection_request']['preview'] = array(
+          '#name' => 'crf_request_preview_button',
+          '#type' => 'submit',
+          '#value' => t('Preview requests'),
+          '#validate' => array('crf_request_field_collection_request_form_validate'),
+          '#submit' => array('crf_request_field_collection_request_preview_submit'),
+          '#weight' => 1001,
+        );
+      }
+      else {
+        // prepare crf_request array for email preview injecting relevant data
+        $crf_requests = $form_state['values']['field_collection_request']['und'];
+        $crf_requests['#max_delta'] = $max_delta;
+        $crf_requests['#deadline'] = $form_state['values']['field_request_deadline']['und'][0];
+        $preview_request_table = theme('field_collection_request_preview', $crf_requests);
+
+        $form['field_collection_request']['preview_requests'] = array(
+          '#markup' => $preview_request_table,
+        );
+        $form['field_collection_request']['und']['#access'] = FALSE;
+        $form['field_collection_request']['cancel_preview'] = array(
+          '#name' => 'crf_request_cancel_preview_button',
+          '#type' => 'submit',
+          '#value' => t('Cancel preview requests'),
+          '#validate' => array(),
+          '#submit' => array('crf_request_field_collection_request_cancel_preview_submit'),
+          '#weight' => 1001,
+        );
+      }
+    }
+  }
+
+  // Cleanup field_collection subform
+  if (isset($form['field_collection_request'])) {
+    $max_delta = $form['field_collection_request']['und']['#max_delta'];
+    if (isset($form['field_collection_request']['und'][$max_delta]['remove_button'])) {
+      $form['field_collection_request']['und'][$max_delta]['remove_button']['#value'] = t('Clear');
+    }
+    $form['field_collection_request']['und']['add_more']['#value'] = t('Add another report');
+    $form['field_collection_request']['und']['add_more']['#validate'][] = 'crf_request_field_collection_request_form_validate';
+
+    for ($i = 0; $i <= $max_delta; $i++) {
+
+      // remove report entity reference form element
+      unset($form['field_collection_request']['und'][$i]['field_report']);
+
+      // Manage visibility for external url with #state attribute
+      // http://api.drupal.org/api/drupal/includes%21common.inc/function/drupal_process_states/7
+      // https://drupal.org/node/1464758
+      $options = crf_request_report_external_options();
+      $selector = ':input[name="field_collection_request[und][' . $i . '][field_reporting_type][und]"]';
+      $form['field_collection_request']['und'][$i]['field_crf_request_url']['#states'] = array(
+        'visible' => array(
+           $selector => $options,
+         ),
+      );
+
+    }
+  }
+
+//dpm(array('form' => $form, 'form_state' => $form_state), 'crf_request_form_request_node_form_alter - FINAL');
+
+}
+
+/**
+ * Validate callback to preview a field_collection_request
+ * @TODO use field_collection_field_widget_form #element_validate (field_collection_field_widget_embed_validate)
+ */
+function crf_request_field_collection_request_form_validate($form, &$form_state) {
+
+  $max_delta = $form['field_collection_request']['und']['#max_delta'];
+  $external_tid = crf_request_report_external();
+  for ($i=0; $i<=$max_delta; $i++) {
+    $field_collection_subform = $form_state['values']['field_collection_request']['und'][$i];
+
+    // Check reporting type
+    if (empty($field_collection_subform['field_reporting_type']['und'][0]['target_id'])) {
+      form_set_error('field_collection_request][und][' . $i . '][field_reporting_type', t('Please select a Report type'));
+    }
+    else {
+      $report_tid = $field_collection_subform['field_reporting_type']['und'][0]['target_id'];
+      $url = $field_collection_subform['field_crf_request_url']['und'][0]['url'];
+      if (in_array($report_tid, $external_tid) && !valid_url($url, TRUE)) {
+        form_set_error('field_collection_request][und][' . $i . '][field_crf_request_url', t('Please enter a valid url'));
+      }
+    }
+
+    // Check recipients
+    $recipient_delta = count($field_collection_subform['field_request_recipients']['und']);
+    if ( ($recipient_delta < 2) && empty($field_collection_subform['field_request_recipients']['und'][0]['target_id']) ) {
+      form_set_error('field_collection_request][und][' . $i . '][field_request_recipients', t('Please select a Recipient'));
+    }
+
+    // Check Referral
+    if (empty($field_collection_subform['field_request_requested_by']['und'][0]['target_id'])) {
+      form_set_error('field_collection_request][und][' . $i . '][field_request_requested_by', t('Please select a Referral'));
+    }
+
+  }
+//dpm($form, 'crf_request_field_collection_request_preview_validate > form');
+//dpm($form_state, 'crf_request_field_collection_request_preview_validate > form_state');
+}
+
+/**
+ * Submit callback to preview a field_collection_request
+ */
+function crf_request_field_collection_request_preview_submit($form, &$form_state) {
+  $button = $form_state['triggering_element'];
+//dpm(array('form' => $form, 'form_state' => $form_state, 'button' => $button), 'crf_request_field_collection_request_preview_submit');
+  $form_state['storage']['crf_request_preview'] = TRUE;
+  $form_state['rebuild'] = TRUE;
+}
+
+function crf_request_field_collection_request_cancel_preview_submit($form, &$form_state) {
+  $form_state['storage']['crf_request_preview'] = FALSE;
+  $form_state['rebuild'] = TRUE;
+}
+/*
+function crf_request_form_alter(&$form, &$form_state, $form_id) {
+dsm("crf_request_form_alter > $form_id");
+}
+*/
+
+/**
+ * Implements hook_theme().
+ */
+function crf_request_theme() {
+  return array(
+    'field_collection_request_preview' => array(
+//      'variables' => array('element' => NULL),
+      'function' => 'theme_field_collection_request_preview',
+    ),
+  );
+}
+
+/**
+ * Theme field_collection request for preview
+ * @TODO cleanup mail template
+ */
+function theme_field_collection_request_preview($element) {
+  global $base_url;
+
+  $header = array(t('Report type'), t('Recipient'), t('Requested by'), t('Email'));
+  $rows = array();
+
+  for ($delta=0; $delta<=$element['#max_delta']; $delta++) {
+
+    // craft field_collection_item
+    $entity_type = 'field_collection_item';
+    $request_item = entity_create($entity_type, array());
+    $request_item->field_name = 'field_collection_request';
+    $request_item->field_reporting_type = $element[$delta]['field_reporting_type'];
+    $request_item->field_request_recipients = $element[$delta]['field_request_recipients'];
+    $request_item->field_request_requested_by = $element[$delta]['field_request_requested_by'];
+
+    // get deadline
+    // @TODO there should be a better way to do this
+    $deadline_date = strtotime($element['#deadline']['value']);
+
+    // get report type
+    $reporting_type_tid = $element[$delta]['field_reporting_type']['und'][0]['target_id'];
+    $reporting_type_term = taxonomy_term_load($reporting_type_tid);
+    $reporting_type = $reporting_type_term->name;
+
+    // set (fake) request url
+    if (in_array($reporting_type_tid, crf_request_report_external())) {
+      $request_url = $element[$delta]['field_crf_request_url']['und'][0]['url'];
+    }
+    else {
+      $request_url = $base_url . '/report/TBD';
+    }
+
+    // get requested by
+    $requested_by_uid = $element[$delta]['field_request_requested_by']['und'][0]['target_id'];
+    if ($requested_by_uid) {
+      $requested_by = user_load($requested_by_uid);
+      $requested_by_wrapper = entity_metadata_wrapper('user', $requested_by);
+      $requested_by_name = $requested_by_wrapper->name->value();
+    }
+
+    // get recipient
+    foreach ($element[$delta]['field_request_recipients']['und'] as $recipient) {
+      $recipient_uid = $recipient['target_id'];
+      if ($recipient_uid) {
+        $recipient = user_load($recipient_uid);
+        $recipient_wrapper = entity_metadata_wrapper('user', $recipient);
+        $recipient_name = $recipient_wrapper->name->value();
+      }
+
+      // use rule to get norification body
+      $out = rules_invoke_component('rules_email_notification_body', $request_item, $request_url,  $recipient, $deadline_date);
+      $request_notification_body = array_shift($out);
+
+      $rows[] = array('data' => array($reporting_type, "$recipient_name", "$requested_by_name", '<span class="link-preview">preview</span>'));
+      $rows[] = array(
+        'data' => array(array('data' => '<pre style="font-family:Courier, monospace">' . $request_notification_body. '</pre>', 'colspan' => 4)),
+        'class' => array('mail-preview'),
+        'no_striping' => TRUE
+      );
+    }
+  }
+  drupal_add_js(drupal_get_path('module', 'crf_request') . '/crf_request.email_preview.js');
+  return theme('table', array('header' => $header, 'rows' => $rows, 'attributes' => array('id' => 'report-request-preview')));
+}
+
