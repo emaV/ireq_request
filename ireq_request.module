@@ -13,7 +13,7 @@ include_once 'ireq_request.features.inc';
 function ireq_request_report_external($reset = FALSE) {
   $report_external_tid = &drupal_static(__FUNCTION__);
   if (!isset($report_external_tid) || $reset) {
-    if (($cache = cache_get('list:CFR:report_external_tid')) && !$reset) {
+    if (($cache = cache_get('list:IREQ:report_external_tid')) && !$reset) {
       $report_external_tid = $cache->data;
     }
     else {
@@ -26,7 +26,7 @@ function ireq_request_report_external($reset = FALSE) {
           $report_external_tid[] = $term->tid;
         }
       }
-      cache_set('list:CFR:report_external_tid', $report_external_tid, 'cache');
+      cache_set('list:IREQ:report_external_tid', $report_external_tid, 'cache');
     }
   }
   return $report_external_tid;
@@ -300,7 +300,7 @@ function ireq_request_form_request_node_form_alter(&$form, &$form_state, $form_i
     }
   }
 
-//dpm(array('form' => $form, 'form_state' => $form_state), 'ireq_request_form_request_node_form_alter - FINAL');
+dpm(array('form' => $form, 'form_state' => $form_state), 'ireq_request_form_request_node_form_alter - FINAL');
 
 }
 
