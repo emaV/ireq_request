@@ -711,7 +711,7 @@ function ireq_request_field_default_field_instances() {
         'label_position' => 'above',
         'maxlength_js_label' => 'Content limited to @limit characters, remaining: <strong>@remaining</strong>',
         'text_parts' => array(),
-        'year_range' => '-3:+3',
+        'year_range' => '0:+1',
       ),
       'type' => 'date_select',
       'weight' => 3,

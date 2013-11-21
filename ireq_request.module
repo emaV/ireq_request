@@ -300,7 +300,29 @@ function ireq_request_form_request_node_form_alter(&$form, &$form_state, $form_i
     }
   }
 
+  // add date validation
+  $form['field_request_deadline']['und'][0]['#element_validate'][] = 'ireq_request_deadline_validate';
+
 //dpm(array('form' => $form, 'form_state' => $form_state), 'ireq_request_form_request_node_form_alter - FINAL');
+
+}
+
+/**
+ * Validate callback for request deadline
+ */
+function ireq_request_deadline_validate($element, &$form_state) {
+
+  // get deadline value
+  $field_name = $element['#field_name'];
+  $delta = $element['#delta'];
+  $langcode = $element['#language'];
+  $form_values = drupal_array_get_nested_value($form_state['values'], $element['#field_parents']);
+  $item = $form_values[$field_name][$langcode][$delta];
+  $deadline = $item['value'];
+
+  if ( strtotime($deadline) < time() ) {
+    form_error($element, t("The request deadline must be in the future"));
+  }
 
 }
 
