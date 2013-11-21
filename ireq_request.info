@@ -3,6 +3,7 @@ description = IREQ Request and basic Report.
 core = 7.x
 package = IREQ
 project = ireq_request
+dependencies[] = auto_entitylabel
 dependencies[] = chosen
 dependencies[] = context
 dependencies[] = ireq_core
